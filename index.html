@@ -1,0 +1,559 @@
+<!DOCTYPE html>
+<html lang="he" dir="rtl">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" type="image/png" href="images/logo.png">
+    <title>Technoda Warriors | ארכיאולוגיה חכמה</title>
+    <link rel="stylesheet" href="css/styles.css">
+</head>
+
+<body>
+    <!-- Progress Bar -->
+    <div class="progress-bar" id="progressBar"></div>
+
+    <!-- Admin Panel -->
+    <div class="admin-panel" id="adminPanel">
+        <div class="admin-content">
+            <div class="admin-header">
+                <h2 style="color: var(--accent);">לוח בקרת מנהל - עריכת תוכן האתר</h2>
+                <button class="close-admin" onclick="toggleAdmin()">✕ סגור</button>
+            </div>
+
+            <!-- About Section Edit -->
+            <div class="edit-section">
+                <h3>📝 אודות הקבוצה</h3>
+                <div class="form-group">
+                    <label>תיאור הקבוצה:</label>
+                    <textarea id="aboutText" placeholder="הכנס תיאור של הקבוצה..."></textarea>
+                </div>
+                <button class="save-button" onclick="saveContent('about')">שמור שינויים</button>
+            </div>
+
+            <!-- Project Problem Edit -->
+            <div class="edit-section">
+                <h3>🔍 הבעיה שבחרנו</h3>
+                <div class="form-group">
+                    <label>תיאור הבעיה:</label>
+                    <textarea id="problemText" placeholder="תאר את הבעיה..."></textarea>
+                </div>
+                <button class="save-button" onclick="saveContent('problem')">שמור שינויים</button>
+            </div>
+
+            <!-- Project Solution Edit -->
+            <div class="edit-section">
+                <h3>💡 הפתרון שלנו</h3>
+                <div class="form-group">
+                    <label>תיאור הפתרון:</label>
+                    <textarea id="solutionText" placeholder="תאר את הפתרון..."></textarea>
+                </div>
+                <button class="save-button" onclick="saveContent('solution')">שמור שינויים</button>
+            </div>
+
+            <!-- Project Implementation Edit -->
+            <div class="edit-section">
+                <h3>⚙️ דרך היישום</h3>
+                <div class="form-group">
+                    <label>תיאור יישום הפתרון:</label>
+                    <textarea id="implementationText" placeholder="תאר כיצד הפתרון ייושם..."></textarea>
+                </div>
+                <button class="save-button" onclick="saveContent('implementation')">שמור שינויים</button>
+            </div>
+
+            <!-- Company Link Edit -->
+            <div class="edit-section">
+                <h3>🌐 קישור לאתר החברה</h3>
+                <div class="form-group">
+                    <label>כתובת אתר החברה שפיתחה את המערכת:</label>
+                    <input type="url" id="companyLinkInput" placeholder="https://example.com">
+                    <p style="font-size: 0.9rem; opacity: 0.7; margin-top: 0.5rem;">
+                        הכנס את כתובת האתר המלאה (כולל https://)
+                    </p>
+                </div>
+                <button class="save-button" onclick="saveContent('companyLink')">שמור שינויים</button>
+            </div>
+
+            <!-- Team Members Edit -->
+            <div class="edit-section">
+                <h3>👥 עריכת חברי צוות</h3>
+                <p style="margin-bottom: 1rem; opacity: 0.8;">הכנס שמות והתפקידים של 10 חברי הקבוצה, מופרדים בפסיק
+                    (שם:תפקיד)</p>
+                <div class="form-group">
+                    <label>חבר 1:</label>
+                    <input type="text" id="member1" placeholder="שם:תפקיד">
+                </div>
+                <div class="form-group">
+                    <label>חבר 2:</label>
+                    <input type="text" id="member2" placeholder="שם:תפקיד">
+                </div>
+                <div class="form-group">
+                    <label>חבר 3:</label>
+                    <input type="text" id="member3" placeholder="שם:תפקיד">
+                </div>
+                <div class="form-group">
+                    <label>חבר 4:</label>
+                    <input type="text" id="member4" placeholder="שם:תפקיד">
+                </div>
+                <div class="form-group">
+                    <label>חבר 5:</label>
+                    <input type="text" id="member5" placeholder="שם:תפקיד">
+                </div>
+                <div class="form-group">
+                    <label>חבר 6:</label>
+                    <input type="text" id="member6" placeholder="שם:תפקיד">
+                </div>
+                <div class="form-group">
+                    <label>חבר 7:</label>
+                    <input type="text" id="member7" placeholder="שם:תפקיד">
+                </div>
+                <div class="form-group">
+                    <label>חבר 8:</label>
+                    <input type="text" id="member8" placeholder="שם:תפקיד">
+                </div>
+                <div class="form-group">
+                    <label>חבר 9:</label>
+                    <input type="text" id="member9" placeholder="שם:תפקיד">
+                </div>
+                <div class="form-group">
+                    <label>חבר 10:</label>
+                    <input type="text" id="member10" placeholder="שם:תפקיד">
+                </div>
+                <button class="save-button" onclick="saveContent('team')">שמור שינויים</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Header -->
+    <header>
+        <nav>
+            <div class="logo">
+                <a href="#home">
+                    <span>🏛️</span>
+                    <span>Technoda Warriors</span>
+                </a>
+            </div>
+            <div class="menu-toggle" id="menuToggle">
+                <span></span>
+                <span></span>
+                <span></span>
+            </div>
+            <ul class="nav-links" id="navLinks">
+                <li><a href="#values">ערכי ליבה</a></li>
+                <li><a href="#about">הקבוצה</a></li>
+                <li><a href="#project">פרויקט</a></li>
+                <li><a href="#game">אסטרטגייה</a></li>
+                <li><a href="#robot">הרובוט</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <!-- Hero Section -->
+    <section class="hero" id="home">
+        <div class="hero-icon">🏛️</div>
+        <h1>Technoda Warriors</h1>
+        <p class="hero-subtitle">חושפים את העבר, בונים את העתיד - ארכיאולוגיה בעידן הדיגיטלי</p>
+        <p class="hero-location">🏫 הטכנודע חדרה | עונת UNEARTHED 2025</p>
+    </section>
+
+    <!-- Core Values Section -->
+    <section class="core-values" id="values">
+        <h2 class="section-title">ערכי הליבה שלנו</h2>
+        <div class="values-container">
+            <div class="value-card">
+                <div class="value-icon">🤝</div>
+                <h3>כבוד הדדי</h3>
+                <p>אנחנו מכבדים את כל חברי הצוות ואת הקבוצות המתחרות, ומעריכים את התרומה הייחודית של כל אחד</p>
+            </div>
+            <div class="value-card">
+                <div class="value-icon">👥</div>
+                <h3>שיתוף פעולה</h3>
+                <p>עובדים יחד כצוות, משלבים כישורים ורעיונות להשגת מטרות משותפות</p>
+            </div>
+            <div class="value-card">
+                <div class="value-icon">💡</div>
+                <h3>חדשנות</h3>
+                <p>חושבים מחוץ לקופסה, מחפשים פתרונות יצירתיים לבעיות מורכבות</p>
+            </div>
+            <div class="value-card">
+                <div class="value-icon">💪</div>
+                <h3>התמדה</h3>
+                <p>לא מוותרים מול אתגרים, לומדים מטעויות וממשיכים להתקדם</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- About Section -->
+    <section id="about">
+        <h2 class="section-title">אודות הקבוצה</h2>
+        <div class="about-content" id="aboutContent">
+            <p>
+                ברוכים הבאים לקבוצת Technoda Warriors מהטכנודע בחדרה!
+                אנחנו קבוצת FLL נלהבת המורכבת מ-10 חברים מוכשרים שמאמינים שטכנולוגיה יכולה לשמר ולחשוף את אוצרות העבר.
+                בעונת UNEARTHED 2025, אנחנו מתמקדים בפיתוח פתרונות חדשניים לתחום הארכיאולוגיה.
+            </p>
+            <p style="margin-top: 1rem;">
+                הקבוצה שלנו משלבת חשיבה יצירתית, עבודת צוות מצוינת, ומיומנויות טכניות מתקדמות.
+                אנחנו מונחים על ידי ארבעת ערכי הליבה שלנו: כבוד הדדי, שיתוף פעולה, חדשנות והתמדה.
+                ביחד, אנחנו עובדים כדי להוכיח שטכנולוגיה נגישה יכולה לחולל מהפכה בחקר העבר.
+            </p>
+        </div>
+    </section>
+
+    <!-- Gallery Section -->
+    <section id="gallery">
+        <h2 class="section-title">גלריית תמונות</h2>
+        <div class="carousel-container">
+            <div class="carousel" id="carousel">
+                <div class="carousel-slide active">
+                    <div class="carousel-placeholder">🏆<br>צוות במלוא הכוחות</div>
+                </div>
+                <div class="carousel-slide">
+                    <div class="carousel-placeholder">🤖<br>עבודה על הרובוט</div>
+                </div>
+                <div class="carousel-slide">
+                    <div class="carousel-placeholder">💻<br>פיתוח התוכנה</div>
+                </div>
+                <div class="carousel-slide">
+                    <div class="carousel-placeholder">🎯<br>אימוני זירה</div>
+                </div>
+                <div class="carousel-slide">
+                    <div class="carousel-placeholder">🌟<br>יום התחרות</div>
+                </div>
+            </div>
+            <button class="carousel-nav prev" onclick="changeSlide(-1)">❮</button>
+            <button class="carousel-nav next" onclick="changeSlide(1)">❯</button>
+            <div class="carousel-controls">
+                <span class="carousel-dot active" onclick="goToSlide(0)"></span>
+                <span class="carousel-dot" onclick="goToSlide(1)"></span>
+                <span class="carousel-dot" onclick="goToSlide(2)"></span>
+                <span class="carousel-dot" onclick="goToSlide(3)"></span>
+                <span class="carousel-dot" onclick="goToSlide(4)"></span>
+            </div>
+        </div>
+    </section>
+
+    <!-- Team Section -->
+    <section id="team">
+        <h2 class="section-title">חברי הקבוצה שלנו</h2>
+        <div class="team-grid" id="teamGrid">
+            <div class="team-member">
+                <div class="member-avatar">👨‍💻</div>
+                <div class="member-name">חבר 1</div>
+                <div class="member-role">מנהיג הקבוצה</div>
+            </div>
+            <div class="team-member">
+                <div class="member-avatar">👩‍🔧</div>
+                <div class="member-name">חבר 2</div>
+                <div class="member-role">מהנדס/ת ראשי/ת</div>
+            </div>
+            <div class="team-member">
+                <div class="member-avatar">👨‍💼</div>
+                <div class="member-name">חבר 3</div>
+                <div class="member-role">מתכנת/ת ראשי/ת</div>
+            </div>
+            <div class="team-member">
+                <div class="member-avatar">👩‍🎨</div>
+                <div class="member-name">חבר 4</div>
+                <div class="member-role">מעצב/ת</div>
+            </div>
+            <div class="team-member">
+                <div class="member-avatar">👨‍🔬</div>
+                <div class="member-name">חבר 5</div>
+                <div class="member-role">חוקר/ת</div>
+            </div>
+            <div class="team-member">
+                <div class="member-avatar">👩‍💻</div>
+                <div class="member-name">חבר 6</div>
+                <div class="member-role">מתכנת/ת</div>
+            </div>
+            <div class="team-member">
+                <div class="member-avatar">👨‍🏭</div>
+                <div class="member-name">חבר 7</div>
+                <div class="member-role">מהנדס/ת</div>
+            </div>
+            <div class="team-member">
+                <div class="member-avatar">👩‍🚀</div>
+                <div class="member-name">חבר 8</div>
+                <div class="member-role">מנהל/ת פרויקט</div>
+            </div>
+            <div class="team-member">
+                <div class="member-avatar">👨‍🎓</div>
+                <div class="member-name">חבר 9</div>
+                <div class="member-role">איש/אשת תקשורת</div>
+            </div>
+            <div class="team-member">
+                <div class="member-avatar">👩‍🔧</div>
+                <div class="member-name">חבר 10</div>
+                <div class="member-role">טכנאי/ת</div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Project Section -->
+    <section id="project">
+        <h2 class="section-title">הפרויקט השנתי: ארכיאולוגיה חכמה</h2>
+        <div class="project-container">
+            <div class="project-card">
+                <h3>
+                    <span class="project-icon">🔍</span>
+                    הבעיה
+                </h3>
+                <div id="problemContent">
+                    <p>
+                        עולם הארכיאולוגיה מתמודד עם אתגר משמעותי: <strong>עלות גבוהה מאוד של כלים טכנולוגיים
+                            מתקדמים</strong>.
+                        רחפנים מקצועיים, מצלמות ברזולוציה גבוהה, מערכות סריקה תלת-ממדיות ותוכנות ניתוח מתקדמות עולים
+                        עשרות ומאות אלפי שקלים, מה שהופך את הכלים הללו לבלתי נגישים עבור חוקרים רבים, ארגונים קטנים
+                        ומוסדות חינוכיים.
+                    </p>
+                    <p style="margin-top: 1rem;">
+                        המצב הנוכחי גורם לכך שגילויים ארכיאולוגיים חשובים עלולים להישאר מוסתרים, אתרים עתיקים
+                        אינם מתועדים כראוי, והידע על העבר שלנו נשאר מוגבל למעטים. זה מונע מחוקרים צעירים,
+                        קהילות מקומיות ומוסדות חינוך להשתתף בשימור וחקר המורשת התרבותית שלנו.
+                    </p>
+                </div>
+            </div>
+
+            <div class="project-card">
+                <h3>
+                    <span class="project-icon">💡</span>
+                    הפתרון
+                </h3>
+                <div id="solutionContent">
+                    <p>
+                        פיתחנו <strong>ממשק תוכנה חכם מבוסס בינה מלאכותית</strong> שמאפשר לכל אחד לבצע ניתוח ארכיאולוגי
+                        מקצועי באמצעות ציוד זמין ונגיש. המערכת שלנו מקבלת וידאו ותמונות ממקורות פשוטים כמו:
+                    </p>
+                    <ul>
+                        <li>📱 <strong>סמארטפונים רגילים</strong> - צילום ישיר מהטלפון</li>
+                        <li>🚁 <strong>רחפנים זולים</strong> - רחפנים צעירים במחירים נגישים</li>
+                        <li>📷 <strong>מצלמות פשוטות</strong> - מצלמות דיגיטליות בסיסיות</li>
+                    </ul>
+                    <p style="margin-top: 1rem;">
+                        <strong>יכולות המערכת:</strong>
+                    </p>
+                    <ul>
+                        <li>🔍 <strong>זיהוי אוטומטי של עתיקות ואתרי עתיקות</strong> בתמונות ווידאו</li>
+                        <li>🏺 <strong>זיהוי סוג העתיקה</strong> (כלי חרס, מטבעות, כלי נשק, תכשיטים וכו')</li>
+                        <li>⏳ <strong>שיערוך התקופה ההיסטורית</strong> על פי מאפיינים חזותיים</li>
+                        <li>🧱 <strong>זיהוי חומרי הגלם</strong> (חרס, אבן, מתכת, זכוכית)</li>
+                        <li>🗺️ <strong>ניתוח תמונות אוויר</strong> של אתרים ארכיאולוגיים</li>
+                        <li>🌐 <strong>אינטגרציה עם מערכת GovMap הארצית</strong> למיפוי אתרי עתיקות</li>
+                        <li>💻 <strong>נגישות ממחשב ומאפליקציה</strong> - פלטפורמה חוצת מכשירים</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="project-card">
+                <h3>
+                    <span class="project-icon">⚙️</span>
+                    דרך היישום
+                </h3>
+                <div id="implementationContent">
+                    <p>
+                        <strong>שלב 1: פיתוח מנוע הבינה המלאכותית</strong>
+                    </p>
+                    <ul>
+                        <li>אימון מודלים של Computer Vision על מאגרי תמונות ארכיאולוגיות</li>
+                        <li>שימוש באלגוריתמי Deep Learning לזיהוי דפוסים וסיווג</li>
+                        <li>פיתוח מערכת לניתוח תמונות אוויר וזיהוי אנומליות קרקע</li>
+                    </ul>
+                    <p style="margin-top: 1rem;">
+                        <strong>שלב 2: בניית הממשק והאפליקציה</strong>
+                    </p>
+                    <ul>
+                        <li>יצירת ממשק משתמש ידידותי ואינטואיטיבי</li>
+                        <li>אפשרות לצילום ישיר מהטלפון או העלאת תמונות קיימות</li>
+                        <li>מערכת דוחות אוטומטית עם ניתוח מפורט</li>
+                    </ul>
+                    <p style="margin-top: 1rem;">
+                        <strong>שלב 3: אינטגרציה עם GovMap</strong>
+                    </p>
+                    <ul>
+                        <li>חיבור למערכת המיפוי הארצית של רשות העתיקות</li>
+                        <li>סימון אתרים חדשים ועדכון מיקומים קיימים</li>
+                        <li>שיתוף נתונים עם קהילת החוקרים</li>
+                    </ul>
+                    <p style="margin-top: 1rem;">
+                        <strong>שלב 4: בדיקות שטח ושיפור</strong>
+                    </p>
+                    <ul>
+                        <li>שיתוף פעולה עם ארכיאולוגים מקצועיים לאימות התוצאות</li>
+                        <li>ביצוע סריקות באתרים ארכיאולוגיים מוכרים</li>
+                        <li>שיפור מתמיד של האלגוריתמים על פי משוב</li>
+                    </ul>
+                    <p style="margin-top: 1.5rem;">
+                        <strong>🎯 המטרה:</strong> להנגיש את עולם הארכיאולוגיה, להוריד עלויות ב-90%, ולאפשר לכל אדם
+                        להפוך לחלק מחקר וגילוי העבר שלנו!
+                    </p>
+                    <div style="text-align: center; margin-top: 2rem;">
+                        <a href="company.html" id="companyLink" class="project-button" target="_blank">
+                            🌐 בקר באתר החברה שפיתחה את המערכת
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Game Strategy Section -->
+    <section class="strategy-section" id="game">
+        <div class="strategy-content">
+            <h2 class="section-title">אסטרטגיית המשחק שלנו</h2>
+            <p style="text-align: center; font-size: 1.2rem; margin-bottom: 2rem; opacity: 0.9;">
+                בחרנו להתמקד במשימות עם ניקוד גבוה ודיוק מקסימלי, תוך שמירה על אסימוני הדיוק
+            </p>
+            <div class="strategy-grid">
+                <div class="strategy-card">
+                    <span class="strategy-icon">🎯</span>
+                    <h4>משימות עדיפות ראשונה</h4>
+                    <ul>
+                        <li><strong>משימה 01:</strong> ניקוי משטחים (20 נקודות)</li>
+                        <li><strong>משימה 03:</strong> חוקרת מכרות (40 נקודות עם בונוס)</li>
+                        <li><strong>משימה 04:</strong> חילוץ זהיר (40 נקודות)</li>
+                        <li><strong>משימה 07:</strong> הרמת משאות כבדים (30 נקודות)</li>
+                    </ul>
+                </div>
+
+                <div class="strategy-card">
+                    <span class="strategy-icon">🔄</span>
+                    <h4>סדר ביצוע אופטימלי</h4>
+                    <p>
+                        1️⃣ התחלה עם ניקוי משטחים - משימה קלה לחימום<br>
+                        2️⃣ מעבר לחילוץ זהיר - דורש דיוק גבוה<br>
+                        3️⃣ הרמת משאות כבדים - משימת כוח<br>
+                        4️⃣ חוקרת מכרות - משימה עם בונוס<br>
+                        5️⃣ איסוף פריטים לפורום - ניצול זמן נותר
+                    </p>
+                </div>
+
+                <div class="strategy-card">
+                    <span class="strategy-icon">🎲</span>
+                    <h4>ניהול אסימוני דיוק</h4>
+                    <p>
+                        אסטרטגיה: <strong>שמירה על מקסימום אסימונים!</strong><br><br>
+                        • תכנון מסלולים בדייקנות מירבית<br>
+                        • הימנעות מיציאות מיותרות מהבית<br>
+                        • בדיקת חיישנים לפני כל שיגור<br>
+                        • 6 אסימונים = 50 נקודות בונוס!
+                    </p>
+                </div>
+
+                <div class="strategy-card">
+                    <span class="strategy-icon">⚙️</span>
+                    <h4>גיבוי ותוכניות חלופיות</h4>
+                    <p>
+                        • <strong>תוכנית A:</strong> מסלול אגרסיבי (100+ נקודות)<br>
+                        • <strong>תוכנית B:</strong> מסלול בטוח (80+ נקודות)<br>
+                        • <strong>תוכנית C:</strong> משימות פשוטות (60+ נקודות)<br>
+                        • גמישות בהתאם לתנאי הזירה
+                    </p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Robot Design Section -->
+    <section class="strategy-section" id="robot">
+        <div class="strategy-content">
+            <h2 class="section-title">תכנון הרובוט שלנו</h2>
+            <p style="text-align: center; font-size: 1.2rem; margin-bottom: 2rem; opacity: 0.9;">
+                פיתחנו רובוט מודולרי עם זרועות מתחלפות ותכנות מתקדם
+            </p>
+            <div class="strategy-grid">
+                <div class="strategy-card">
+                    <span class="strategy-icon">🏗️</span>
+                    <h4>מבנה בסיס חזק</h4>
+                    <p>
+                        • מסגרת יציבה ממרכזי LEGO Technic<br>
+                        • 4 גלגלים עם מתלים לספיגת זעזועים<br>
+                        • מרכז כובד נמוך למניעת התהפכות<br>
+                        • עיצוב קומפקטי לניווט בזירה<br>
+                        • משקל מאוזן להדבקות מיטבית
+                    </p>
+                </div>
+
+                <div class="strategy-card">
+                    <span class="strategy-icon">🦾</span>
+                    <h4>זרועות ייעודיות</h4>
+                    <p>
+                        <strong>זרוע 1 - אחיזה:</strong> מנגנון צבת לאיסוף פריטים<br>
+                        <strong>זרוע 2 - דחיפה:</strong> להזזת משקולות כבדות<br>
+                        <strong>זרוע 3 - הרמה:</strong> מערכת מנוף להרמת עצמים<br>
+                        <strong>זרוע 4 - מברשת:</strong> לניקוי משטחים<br>
+                        כל הזרועות מחליפות במהירות!
+                    </p>
+                </div>
+
+                <div class="strategy-card">
+                    <span class="strategy-icon">👁️</span>
+                    <h4>מערכת חיישנים</h4>
+                    <p>
+                        🎨 <strong>2 חיישני צבע:</strong> עוקבי קו ומזהי אזורים<br>
+                        📏 <strong>חיישן אולטרסוני:</strong> מדידת מרחקים<br>
+                        🧭 <strong>ג'יירוסקופ:</strong> שמירה על כיוון ישר<br>
+                        ✋ <strong>חיישן מגע:</strong> זיהוי התנגשויות<br>
+                        כיול מדויק לפני כל מקצה!
+                    </p>
+                </div>
+
+                <div class="strategy-card">
+                    <span class="strategy-icon">💻</span>
+                    <h4>תכנות חכם</h4>
+                    <p>
+                        • <strong>שפת תכנות:</strong> Python / Scratch<br>
+                        • <strong>PID Controller:</strong> תנועה מדויקת<br>
+                        • <strong>State Machine:</strong> ניהול משימות<br>
+                        • <strong>Error Handling:</strong> טיפול בתקלות<br>
+                        • קוד מודולרי ומתועד היטב
+                    </p>
+                </div>
+
+                <div class="strategy-card">
+                    <span class="strategy-icon">🔋</span>
+                    <h4>ניהול אנרגיה</h4>
+                    <p>
+                        • סוללה נטענת של EV3/SPIKE<br>
+                        • אופטימיזציה של צריכת חשמל<br>
+                        • בדיקת מצב סוללה לפני מקצה<br>
+                        • שימוש חכם במנועים<br>
+                        • זמן פעולה: 45+ דקות
+                    </p>
+                </div>
+
+                <div class="strategy-card">
+                    <span class="strategy-icon">🔧</span>
+                    <h4>תחזוקה ושיפורים</h4>
+                    <p>
+                        • בדיקות שבועיות של כל הרכיבים<br>
+                        • תיעוד שינויים במחברת הנדסית<br>
+                        • בדיקות אמינות חוזרות<br>
+                        • שיפור מתמיד על בסיס ניסוי<br>
+                        • גיבוי חלקים קריטיים
+                    </p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer id="contact">
+        <div class="footer-content">
+            <p>📍 הטכנודע, חדרה</p>
+            <p>🏛️ FIRST LEGO League - עונת UNEARTHED 2025</p>
+
+            <p style="margin-top: 2rem; opacity: 0.7;">
+                © 2024-2025 Technoda Warriors FLL | כל הזכויות שמורות<br>
+                כבוד הדדי • שיתוף פעולה • חדשנות • התמדה
+            </p>
+        </div>
+
+        <!-- Admin Button -->
+        <button class="admin-button" onclick="toggleAdmin()">🔧 כניסת מנהל</button>
+    </footer>
+
+    <script src="js/script.js"></script>
+</body>
+
+</html>
