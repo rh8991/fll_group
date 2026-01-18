@@ -1,0 +1,88 @@
+.footer {
+  background: var(--black-90);
+  padding: 3rem 2rem;
+  text-align: center;
+  border-top: 2px solid var(--accent);
+  position: relative;
+}
+
+.footerContent {
+  max-width: 1400px;
+  margin: 0 auto;
+}
+
+.footerContent p {
+  margin: 0.5rem 0;
+  font-size: 1rem;
+}
+
+.copyright {
+  margin-top: 2rem !important;
+  opacity: 0.7;
+  font-size: 0.9rem !important;
+}
+
+.adminButton {
+  position: fixed;
+  bottom: 2rem;
+  left: 2rem;
+  background: linear-gradient(135deg, var(--accent), var(--primary));
+  color: var(--white);
+  border: none;
+  padding: 1rem 1.5rem;
+  border-radius: 50px;
+  font-size: 1rem;
+  font-weight: 600;
+  cursor: pointer;
+  box-shadow: 0 8px 24px var(--black-40);
+  transition: all 0.3s ease;
+  z-index: 999;
+}
+
+.adminButton:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 12px 36px var(--black-60);
+}
+
+.adminButton:active {
+  transform: translateY(-1px);
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+  .footer {
+    padding: 2rem 1.5rem;
+  }
+
+  .footerContent p {
+    font-size: 0.9rem;
+  }
+
+  .adminButton {
+    bottom: 1rem;
+    left: 1rem;
+    padding: 0.75rem 1.25rem;
+    font-size: 0.9rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .footer {
+    padding: 1.5rem 1rem;
+  }
+
+  .footerContent p {
+    font-size: 0.85rem;
+  }
+
+  .copyright {
+    font-size: 0.8rem !important;
+  }
+
+  .adminButton {
+    bottom: 0.75rem;
+    left: 0.75rem;
+    padding: 0.6rem 1rem;
+    font-size: 0.85rem;
+  }
+}
