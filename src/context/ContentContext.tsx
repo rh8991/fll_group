@@ -5,6 +5,15 @@ interface TeamMember {
   role: string
 }
 
+interface ThemeColors {
+  primary: string
+  secondary: string
+  accent: string
+  dark: string
+  light: string
+  text: string
+}
+
 interface ContentState {
   aboutText: string
   problemText: string
@@ -12,10 +21,11 @@ interface ContentState {
   implementationText: string
   companyLink: string
   teamMembers: TeamMember[]
+  themeColors: ThemeColors
 }
 
 interface ContentContextType extends ContentState {
-  updateContent: (key: keyof ContentState, value: string | TeamMember[]) => void
+  updateContent: (key: keyof ContentState, value: string | TeamMember[] | ThemeColors) => void
 }
 
 const ContentContext = createContext<ContentContextType | undefined>(undefined)
@@ -39,7 +49,15 @@ export const ContentProvider: React.FC<ContentProviderProps> = ({ children }) =>
     solutionText: '',
     implementationText: '',
     companyLink: '',
-    teamMembers: Array(10).fill({ name: '', role: '' })
+    teamMembers: Array(10).fill({ name: '', role: '' }),
+    themeColors: {
+      primary: '#2f3a7e',
+      secondary: '#6b4f2c',
+      accent: '#8ea19e',
+      dark: '#121826',
+      light: '#f3efe6',
+      text: '#fcf6f6'
+    }
   })
 
   useEffect(() => {
@@ -70,16 +88,28 @@ export const ContentProvider: React.FC<ContentProviderProps> = ({ children }) =>
     }
     loadedContent.teamMembers = teamMembers
 
+    // Load theme colors
+    const savedColors = localStorage.getItem('themeColors')
+    if (savedColors) {
+      try {
+        loadedContent.themeColors = JSON.parse(savedColors)
+      } catch (e) {
+        console.error('Failed to load theme colors:', e)
+      }
+    }
+
     setContent(prev => ({ ...prev, ...loadedContent }))
   }, [])
 
-  const updateContent = (key: keyof ContentState, value: string | TeamMember[]) => {
+  const updateContent = (key: keyof ContentState, value: string | TeamMember[] | ThemeColors) => {
     setContent(prev => ({ ...prev, [key]: value }))
     
     if (key === 'teamMembers' && Array.isArray(value)) {
       value.forEach((member, index) => {
         localStorage.setItem(`member${index + 1}`, `${member.name}:${member.role}`)
       })
+    } else if (key === 'themeColors' && typeof value === 'object' && !Array.isArray(value)) {
+      localStorage.setItem('themeColors', JSON.stringify(value))
     } else if (typeof value === 'string') {
       localStorage.setItem(key, value)
     }

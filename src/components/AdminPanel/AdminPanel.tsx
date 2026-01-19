@@ -8,7 +8,7 @@ interface AdminPanelProps {
 }
 
 const AdminPanel: React.FC<AdminPanelProps> = ({ isOpen, onClose }) => {
-  const { aboutText, problemText, solutionText, implementationText, companyLink, teamMembers, updateContent } = useContent()
+  const { aboutText, problemText, solutionText, implementationText, companyLink, teamMembers, themeColors, updateContent } = useContent()
 
   const [formData, setFormData] = useState({
     aboutText: '',
@@ -16,7 +16,15 @@ const AdminPanel: React.FC<AdminPanelProps> = ({ isOpen, onClose }) => {
     solutionText: '',
     implementationText: '',
     companyLink: '',
-    teamMembers: Array(10).fill({ name: '', role: '' })
+    teamMembers: Array(10).fill({ name: '', role: '' }),
+    themeColors: {
+      primary: '#2f3a7e',
+      secondary: '#6b4f2c',
+      accent: '#8ea19e',
+      dark: '#121826',
+      light: '#f3efe6',
+      text: '#fcf6f6'
+    }
   })
 
   useEffect(() => {
@@ -27,10 +35,11 @@ const AdminPanel: React.FC<AdminPanelProps> = ({ isOpen, onClose }) => {
         solutionText,
         implementationText,
         companyLink,
-        teamMembers: [...teamMembers]
+        teamMembers: [...teamMembers],
+        themeColors: { ...themeColors }
       })
     }
-  }, [isOpen, aboutText, problemText, solutionText, implementationText, companyLink, teamMembers])
+  }, [isOpen, aboutText, problemText, solutionText, implementationText, companyLink, teamMembers, themeColors])
 
   const handleSave = (type: string) => {
     switch(type) {
@@ -62,6 +71,10 @@ const AdminPanel: React.FC<AdminPanelProps> = ({ isOpen, onClose }) => {
         updateContent('teamMembers', formData.teamMembers)
         alert('✅ חברי הצוות נשמרו בהצלחה!')
         break
+      case 'colors':
+        updateContent('themeColors', formData.themeColors)
+        alert('✅ צבעי האתר נשמרו בהצלחה!')
+        break
     }
   }
 
@@ -69,6 +82,25 @@ const AdminPanel: React.FC<AdminPanelProps> = ({ isOpen, onClose }) => {
     const newMembers = [...formData.teamMembers]
     newMembers[index] = { ...newMembers[index], [field]: value }
     setFormData({ ...formData, teamMembers: newMembers })
+  }
+
+  const handleColorChange = (colorKey: keyof typeof formData.themeColors, value: string) => {
+    setFormData({
+      ...formData,
+      themeColors: { ...formData.themeColors, [colorKey]: value }
+    })
+  }
+
+  const resetColors = () => {
+    const defaultColors = {
+      primary: '#2f3a7e',
+      secondary: '#6b4f2c',
+      accent: '#8ea19e',
+      dark: '#121826',
+      light: '#f3efe6',
+      text: '#fcf6f6'
+    }
+    setFormData({ ...formData, themeColors: defaultColors })
   }
 
   if (!isOpen) return null
@@ -167,6 +199,121 @@ const AdminPanel: React.FC<AdminPanelProps> = ({ isOpen, onClose }) => {
               </div>
             ))}
             <button className={styles.saveButton} onClick={() => handleSave('team')}>שמור שינויים</button>
+          </div>
+
+          {/* Color Theme */}
+          <div className={styles.section}>
+            <h3>🎨 ניהול צבעי האתר</h3>
+            <p className={styles.hint}>התאם את צבעי האתר לפי ההעדפות שלך - השינויים יופיעו בכל דפי האתר</p>
+            
+            <div className={styles.colorGrid}>
+              <div className={styles.colorInput}>
+                <label>צבע ראשי (Primary)</label>
+                <div className={styles.colorInputWrapper}>
+                  <input
+                    type="color"
+                    value={formData.themeColors.primary}
+                    onChange={(e) => handleColorChange('primary', e.target.value)}
+                  />
+                  <input
+                    type="text"
+                    value={formData.themeColors.primary}
+                    onChange={(e) => handleColorChange('primary', e.target.value)}
+                    placeholder="#2f3a7e"
+                  />
+                </div>
+              </div>
+
+              <div className={styles.colorInput}>
+                <label>צבע משני (Secondary)</label>
+                <div className={styles.colorInputWrapper}>
+                  <input
+                    type="color"
+                    value={formData.themeColors.secondary}
+                    onChange={(e) => handleColorChange('secondary', e.target.value)}
+                  />
+                  <input
+                    type="text"
+                    value={formData.themeColors.secondary}
+                    onChange={(e) => handleColorChange('secondary', e.target.value)}
+                    placeholder="#6b4f2c"
+                  />
+                </div>
+              </div>
+
+              <div className={styles.colorInput}>
+                <label>צבע הדגשה (Accent)</label>
+                <div className={styles.colorInputWrapper}>
+                  <input
+                    type="color"
+                    value={formData.themeColors.accent}
+                    onChange={(e) => handleColorChange('accent', e.target.value)}
+                  />
+                  <input
+                    type="text"
+                    value={formData.themeColors.accent}
+                    onChange={(e) => handleColorChange('accent', e.target.value)}
+                    placeholder="#8ea19e"
+                  />
+                </div>
+              </div>
+
+              <div className={styles.colorInput}>
+                <label>צבע רקע כהה (Dark)</label>
+                <div className={styles.colorInputWrapper}>
+                  <input
+                    type="color"
+                    value={formData.themeColors.dark}
+                    onChange={(e) => handleColorChange('dark', e.target.value)}
+                  />
+                  <input
+                    type="text"
+                    value={formData.themeColors.dark}
+                    onChange={(e) => handleColorChange('dark', e.target.value)}
+                    placeholder="#121826"
+                  />
+                </div>
+              </div>
+
+              <div className={styles.colorInput}>
+                <label>צבע רקע בהיר (Light)</label>
+                <div className={styles.colorInputWrapper}>
+                  <input
+                    type="color"
+                    value={formData.themeColors.light}
+                    onChange={(e) => handleColorChange('light', e.target.value)}
+                  />
+                  <input
+                    type="text"
+                    value={formData.themeColors.light}
+                    onChange={(e) => handleColorChange('light', e.target.value)}
+                    placeholder="#f3efe6"
+                  />
+                </div>
+              </div>
+
+              <div className={styles.colorInput}>
+                <label>צבע טקסט (Text)</label>
+                <div className={styles.colorInputWrapper}>
+                  <input
+                    type="color"
+                    value={formData.themeColors.text}
+                    onChange={(e) => handleColorChange('text', e.target.value)}
+                  />
+                  <input
+                    type="text"
+                    value={formData.themeColors.text}
+                    onChange={(e) => handleColorChange('text', e.target.value)}
+                    placeholder="#fcf6f6"
+                  />
+                </div>
+              </div>
+            </div>
+
+            <div className={styles.colorActions}>
+              <button className={styles.saveButton} onClick={() => handleSave('colors')}>שמור צבעים</button>
+              <button className={styles.resetButton} onClick={resetColors}>אפס לברירת מחדל</button>
+            </div>
           </div>
         </div>
       </div>
