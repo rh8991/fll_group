@@ -6,6 +6,14 @@ import path from 'path'
 export default defineConfig({
   plugins: [react()],
   base: '/fll_group/',
+  build: {
+    rollupOptions: {
+      input: {
+        main: path.resolve(__dirname, 'index.html'),
+        company: path.resolve(__dirname, 'company.html')
+      }
+    }
+  },
   resolve: {
     alias: {
       '@': path.resolve(__dirname, './src')
