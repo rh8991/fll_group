@@ -14,7 +14,7 @@ const Footer: React.FC<FooterProps> = ({
 
   // Provide default values if data is missing
   const location = footerLocation || "📍 הטכנודע, חדרה";
-  const season = footerSeason || "🏛️ FIRST LEGO League - עונת UNEARTHED 2025";
+  const season = footerSeason || "FIRST LEGO League - עונת UNEARTHED 2026";
   const copyright =
     footerCopyright ||
     "© 2024-2025 Technoda Warriors FLL | כל הזכויות שמורות\nכבוד הדדי • שיתוף פעולה • חדשנות • התמדה";

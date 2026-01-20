@@ -12,7 +12,7 @@
 }
 
 .hero::before {
-  content: '';
+  content: "";
   position: absolute;
   top: -50%;
   right: -50%;
@@ -24,8 +24,15 @@
 }
 
 @keyframes pulse {
-  0%, 100% { transform: scale(1); opacity: 0.1; }
-  50% { transform: scale(1.2); opacity: 0.15; }
+  0%,
+  100% {
+    transform: scale(1);
+    opacity: 0.1;
+  }
+  50% {
+    transform: scale(1.2);
+    opacity: 0.15;
+  }
 }
 
 .heroIcon {
@@ -36,8 +43,31 @@
 }
 
 @keyframes float {
-  0%, 100% { transform: translateY(0); }
-  50% { transform: translateY(-20px); }
+  0%,
+  100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-20px);
+  }
+}
+
+.logoContainer {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 1rem;
+  margin-bottom: 1.5rem;
+  animation: float 3s ease-in-out infinite;
+}
+
+.logo {
+  height: 8rem;
+  width: auto;
+  border-radius: 50%;
+  filter: drop-shadow(0 0 30px rgba(144, 190, 109, 0.6));
+  object-fit: contain;
 }
 
 .title {
@@ -47,7 +77,7 @@
   -webkit-background-clip: text;
   background-clip: text;
   -webkit-text-fill-color: transparent;
-  margin-bottom: 1rem;
+  margin: 0;
   text-shadow: 0 0 40px rgba(142, 161, 158, 0.3);
 }
 
@@ -72,8 +102,12 @@
     padding: 3rem 1.5rem;
   }
 
-  .heroIcon {
-    font-size: 4rem;
+  .logoContainer {
+    gap: 1rem;
+  }
+
+  .logo {
+    height: 5rem;
   }
 
   .title {
@@ -95,9 +129,13 @@
     padding: 2rem 1rem;
   }
 
-  .heroIcon {
-    font-size: 3rem;
-    margin-bottom: 1rem;
+  .logoContainer {
+    flex-direction: column;
+    gap: 0.5rem;
+  }
+
+  .logo {
+    height: 4rem;
   }
 
   .title {

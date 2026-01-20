@@ -1,22 +1,38 @@
-import Header from '@/components/Header/Header'
-import Footer from '@/components/Footer/Footer'
-import styles from './CompanyPage.module.css'
+import Header from "@/components/Header/Header";
+import Footer from "@/components/Footer/Footer";
+import { useContent } from "@/context/ContentContext";
+import styles from "./CompanyPage.module.css";
 
 const CompanyPage = () => {
+  const {
+    companyHeroTitle,
+    companyHeroTagline,
+    companyHeroSubtitle,
+    companyAboutText,
+    companyFeatures,
+    companyContactEmail,
+    companyContactPhone,
+    companyContactWebsite,
+    companyContactText,
+  } = useContent();
+
+  // Convert newlines in about text to paragraphs
+  const aboutParagraphs = companyAboutText
+    .split("\n\n")
+    .filter((p) => p.trim());
+
   return (
     <div className={styles.page}>
       <Header theme="company" />
-      
+
       <main>
         {/* Hero Section */}
         <section className={styles.hero}>
           <div className={styles.heroContent}>
             <div className={styles.logoIcon}>🏛️</div>
-            <h1 className={styles.title}>ArcheoVision AI</h1>
-            <p className={styles.tagline}>בינה מלאכותית לארכיאולוגיה נגישה</p>
-            <p className={styles.subtitle}>
-              המערכת הראשונה בישראל לזיהוי ארכיאולוגי אוטומטי באמצעות טלפונים ורחפנים זולים
-            </p>
+            <h1 className={styles.title}>{companyHeroTitle}</h1>
+            <p className={styles.tagline}>{companyHeroTagline}</p>
+            <p className={styles.subtitle}>{companyHeroSubtitle}</p>
           </div>
         </section>
 
@@ -25,15 +41,12 @@ const CompanyPage = () => {
           <div className={styles.container}>
             <h2 className={styles.sectionTitle}>אודות החברה</h2>
             <div className={styles.content}>
-              <p>
-                <strong>ArcheoVision AI</strong> היא חברת טכנולוגיה חדשנית שמטרתה לעשות את עולם הארכיאולוגיה
-                נגיש לכולם. אנחנו מאמינים שכל אחד צריך להיות מסוגל לתרום לגילוי וחקר העבר שלנו, לא רק מומחים
-                עם ציוד יקר.
-              </p>
-              <p>
-                באמצעות מערכת הבינה המלאכותית המתקדמת שלנו, אנחנו מאפשרים לכל אדם עם טלפון חכם או רחפן זול
-                לבצע ניתוחים ארכיאולוגיים ברמה מקצועית, ללא צורך בהשקעה של עשרות אלפי שקלים בציוד מקצועי.
-              </p>
+              {aboutParagraphs.map((paragraph, index) => (
+                <p
+                  key={index}
+                  dangerouslySetInnerHTML={{ __html: paragraph }}
+                />
+              ))}
             </div>
           </div>
         </section>
@@ -43,41 +56,13 @@ const CompanyPage = () => {
           <div className={styles.container}>
             <h2 className={styles.sectionTitle}>היכולות שלנו</h2>
             <div className={styles.featuresGrid}>
-              <div className={styles.featureCard}>
-                <span className={styles.featureIcon}>📱</span>
-                <h3>צילום מהטלפון</h3>
-                <p>הפוך כל סמארטפון לכלי ארכיאולוגי מתקדם עם יכולות זיהוי AI מובנות</p>
-              </div>
-              
-              <div className={styles.featureCard}>
-                <span className={styles.featureIcon}>🚁</span>
-                <h3>סריקות מהאוויר</h3>
-                <p>זיהוי אתרים ארכיאולוגיים באמצעות רחפנים צעירים ונגישים בעלות נמוכה</p>
-              </div>
-              
-              <div className={styles.featureCard}>
-                <span className={styles.featureIcon}>🏺</span>
-                <h3>זיהוי אוטומטי</h3>
-                <p>מערכת AI מתקדמת לזיהוי עתיקות, סיווג סוגים, ושיערוך תקופות היסטוריות</p>
-              </div>
-              
-              <div className={styles.featureCard}>
-                <span className={styles.featureIcon}>🗺️</span>
-                <h3>אינטגרציה עם GovMap</h3>
-                <p>חיבור ישיר למערכת המיפוי הארצית של רשות העתיקות לתיעוד ושיתוף</p>
-              </div>
-              
-              <div className={styles.featureCard}>
-                <span className={styles.featureIcon}>💻</span>
-                <h3>פלטפורמה רב-ערוצית</h3>
-                <p>גישה דרך אתר, אפליקציה למובייל, וממשק API למפתחים</p>
-              </div>
-              
-              <div className={styles.featureCard}>
-                <span className={styles.featureIcon}>⚡</span>
-                <h3>תוצאות מיידיות</h3>
-                <p>קבל ניתוח מפורט תוך שניות עם רמת דיוק גבוהה</p>
-              </div>
+              {companyFeatures.map((feature, index) => (
+                <div key={index} className={styles.featureCard}>
+                  <span className={styles.featureIcon}>{feature.icon}</span>
+                  <h3>{feature.title}</h3>
+                  <p>{feature.description}</p>
+                </div>
+              ))}
             </div>
           </div>
         </section>
@@ -90,7 +75,9 @@ const CompanyPage = () => {
               <div className={styles.demoPlaceholder}>
                 <span className={styles.demoIcon}>🎥</span>
                 <p>כאן תוצג הדגמה של המערכת בפעולה</p>
-                <p className={styles.demoSubtext}>צילום → העלאה → ניתוח AI → תוצאות</p>
+                <p className={styles.demoSubtext}>
+                  צילום → העלאה → ניתוח AI → תוצאות
+                </p>
               </div>
             </div>
           </div>
@@ -104,28 +91,26 @@ const CompanyPage = () => {
               <div className={styles.contactInfo}>
                 <div className={styles.contactItem}>
                   <span className={styles.contactIcon}>📧</span>
-                  <span>info@archeovision.ai</span>
+                  <span>{companyContactEmail}</span>
                 </div>
                 <div className={styles.contactItem}>
                   <span className={styles.contactIcon}>📞</span>
-                  <span>04-1234567</span>
+                  <span>{companyContactPhone}</span>
                 </div>
                 <div className={styles.contactItem}>
                   <span className={styles.contactIcon}>🌐</span>
-                  <span>www.archeovision.ai</span>
+                  <span>{companyContactWebsite}</span>
                 </div>
               </div>
-              <p className={styles.contactText}>
-                מעוניינים לשתף פעולה? צרו איתנו קשר ונשמח להציג את המערכת שלנו!
-              </p>
+              <p className={styles.contactText}>{companyContactText}</p>
             </div>
           </div>
         </section>
       </main>
-      
+
       <Footer />
     </div>
-  )
-}
+  );
+};
 
-export default CompanyPage
+export default CompanyPage;

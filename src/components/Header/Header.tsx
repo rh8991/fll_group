@@ -11,6 +11,7 @@ const Header: React.FC<HeaderProps> = ({ theme = "default" }) => {
   const { headerTitle, headerCompanyTitle } = useContent();
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
+  const [logoError, setLogoError] = useState(false);
 
   // Provide default values if data is missing
   const title = headerTitle || "Technoda Warriors";
@@ -33,7 +34,20 @@ const Header: React.FC<HeaderProps> = ({ theme = "default" }) => {
       <nav className={styles.nav}>
         <div className={styles.logo}>
           <Link to="/">
-            <span className={styles.logoIcon}>{isCompany ? "🏛️" : "🏛️"}</span>
+            {!isCompany && (
+              <>
+                {!logoError ? (
+                  <img
+                    src="/fll_group/assets/images/logo.png"
+                    alt="Logo"
+                    className={styles.logoIcon}
+                    onError={() => setLogoError(true)}
+                  />
+                ) : (
+                  <span className={styles.logoIcon}>🏛️</span>
+                )}
+              </>
+            )}
             <span className={styles.logoText}>
               {isCompany ? companyTitle : title}
             </span>

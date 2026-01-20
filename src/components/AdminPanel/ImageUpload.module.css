@@ -1,0 +1,168 @@
+.section {
+  background: var(--white-05);
+  border: 1px solid var(--white-10);
+  border-radius: 12px;
+  padding: 1.5rem;
+  margin-bottom: 2rem;
+}
+
+.header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 1.5rem;
+}
+
+.header h3 {
+  color: var(--accent);
+  margin: 0;
+}
+
+.closeBtn {
+  background: var(--error);
+  color: var(--white);
+  border: none;
+  padding: 0.5rem 1rem;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: all 0.3s;
+}
+
+.closeBtn:hover {
+  background: #c13a3f;
+}
+
+.uploadArea {
+  background: var(--black-40);
+  padding: 1.5rem;
+  border-radius: 8px;
+  margin-bottom: 2rem;
+}
+
+.uploadArea h4 {
+  color: var(--accent);
+  margin-bottom: 1rem;
+}
+
+.titleInput {
+  width: 100%;
+  padding: 0.75rem;
+  border-radius: 8px;
+  border: 1px solid var(--white-20);
+  background: var(--black-40);
+  color: var(--text);
+  font-size: 1rem;
+  margin-bottom: 1rem;
+}
+
+.titleInput:focus {
+  outline: none;
+  border-color: var(--accent);
+}
+
+.fileLabel {
+  display: inline-block;
+  background: linear-gradient(135deg, var(--accent), var(--primary));
+  color: var(--white);
+  padding: 0.75rem 1.5rem;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: all 0.3s;
+  font-weight: 600;
+}
+
+.fileLabel:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 24px var(--black-40);
+}
+
+.fileInput {
+  display: none;
+}
+
+.hint {
+  margin-top: 0.5rem;
+  font-size: 0.9rem;
+  opacity: 0.7;
+}
+
+.gallery {
+  margin-top: 2rem;
+}
+
+.gallery h4 {
+  color: var(--accent);
+  margin-bottom: 1rem;
+}
+
+.empty {
+  text-align: center;
+  padding: 2rem;
+  opacity: 0.7;
+  font-style: italic;
+}
+
+.imageGrid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+  gap: 1rem;
+}
+
+.imageCard {
+  background: var(--black-40);
+  border: 1px solid var(--white-10);
+  border-radius: 8px;
+  padding: 1rem;
+  transition: all 0.3s;
+}
+
+.imageCard:hover {
+  border-color: var(--accent);
+  transform: translateY(-4px);
+}
+
+.imageCard img {
+  width: 100%;
+  height: 150px;
+  object-fit: cover;
+  border-radius: 8px;
+  margin-bottom: 0.75rem;
+}
+
+.imageTitle {
+  width: 100%;
+  padding: 0.5rem;
+  border-radius: 4px;
+  border: 1px solid var(--white-20);
+  background: var(--black-40);
+  color: var(--text);
+  font-size: 0.9rem;
+  margin-bottom: 0.5rem;
+}
+
+.imageTitle:focus {
+  outline: none;
+  border-color: var(--accent);
+}
+
+.deleteBtn {
+  width: 100%;
+  background: var(--error);
+  color: var(--white);
+  border: none;
+  padding: 0.5rem;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: all 0.3s;
+  font-weight: 500;
+}
+
+.deleteBtn:hover {
+  background: #c13a3f;
+}
+
+@media (max-width: 768px) {
+  .imageGrid {
+    grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+  }
+}

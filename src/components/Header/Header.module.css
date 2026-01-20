@@ -28,16 +28,21 @@
   margin: 0 auto;
 }
 
-.logo {
+.logo a {
   display: flex;
   align-items: center;
   gap: 0.75rem;
+  text-decoration: none;
 }
 
 .logoIcon {
-  font-size: 2rem;
-  filter: drop-shadow(0 0 10px rgba(144, 190, 109, 0.5));
+  height: 3.5rem;
+  width: auto;
+  border-radius: 50%;
+  filter: drop-shadow(0 0 15px rgba(144, 190, 109, 0.6));
   transition: transform 0.3s ease;
+  object-fit: contain;
+  font-size: 2.5rem;
 }
 
 .logo:hover .logoIcon {
@@ -47,7 +52,11 @@
 .logoText {
   font-size: 1.5rem;
   font-weight: bold;
-  background: linear-gradient(135deg, var(--accent), var(--company-gold, var(--accent)));
+  background: linear-gradient(
+    135deg,
+    var(--accent),
+    var(--company-gold, var(--accent))
+  );
   -webkit-background-clip: text;
   background-clip: text;
   -webkit-text-fill-color: transparent;
@@ -70,7 +79,7 @@
 }
 
 .navLinks a::after {
-  content: '';
+  content: "";
   position: absolute;
   bottom: 0;
   left: 50%;

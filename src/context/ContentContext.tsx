@@ -20,6 +20,18 @@ interface ThemeColors {
   dark: string;
   light: string;
   text: string;
+  headerBg: string;
+  headerText: string;
+  footerBg: string;
+  footerText: string;
+  companyPrimary: string;
+  companySecondary: string;
+  companyAccent: string;
+}
+
+interface GalleryImage {
+  url: string;
+  title: string;
 }
 
 interface ContentState {
@@ -35,12 +47,23 @@ interface ContentState {
   footerLocation: string;
   footerSeason: string;
   footerCopyright: string;
+  galleryImages: GalleryImage[];
+  // Company Page Content
+  companyHeroTitle: string;
+  companyHeroTagline: string;
+  companyHeroSubtitle: string;
+  companyAboutText: string;
+  companyFeatures: Array<{ icon: string; title: string; description: string }>;
+  companyContactEmail: string;
+  companyContactPhone: string;
+  companyContactWebsite: string;
+  companyContactText: string;
 }
 
 interface ContentContextType extends ContentState {
   updateContent: (
     key: keyof ContentState,
-    value: string | TeamMember[] | ThemeColors,
+    value: string | TeamMember[] | ThemeColors | GalleryImage[],
   ) => void;
 }
 
@@ -75,6 +98,13 @@ export const ContentProvider: React.FC<ContentProviderProps> = ({
       dark: "#121826",
       light: "#f3efe6",
       text: "#fcf6f6",
+      headerBg: "#2f3a7e",
+      headerText: "#ffffff",
+      footerBg: "#121826",
+      footerText: "#f3efe6",
+      companyPrimary: "#1a5f7a",
+      companySecondary: "#159895",
+      companyAccent: "#57c5b6",
     },
     headerTitle: "Technoda Warriors",
     headerCompanyTitle: "ArcheoVision AI",
@@ -82,6 +112,55 @@ export const ContentProvider: React.FC<ContentProviderProps> = ({
     footerSeason: "🏛️ FIRST LEGO League - עונת UNEARTHED 2025",
     footerCopyright:
       "© 2024-2025 Technoda Warriors FLL | כל הזכויות שמורות\nכבוד הדדי • שיתוף פעולה • חדשנות • התמדה",
+    galleryImages: [],
+    // Company Page Content
+    companyHeroTitle: "ArcheoVision AI",
+    companyHeroTagline: "בינה מלאכותית לארכיאולוגיה נגישה",
+    companyHeroSubtitle:
+      "המערכת הראשונה בישראל לזיהוי ארכיאולוגי אוטומטי באמצעות טלפונים ורחפנים זולים",
+    companyAboutText:
+      "<strong>ArcheoVision AI</strong> היא חברת טכנולוגיה חדשנית שמטרתה לעשות את עולם הארכיאולוגיה נגיש לכולם.\n\nאנחנו מאמינים שכל אחד צריך להיות מסוגל לתרום לגילוי וחקר העבר שלנו, לא רק מומחים עם ציוד יקר.\n\nבאמצעות מערכת הבינה המלאכותית המתקדמת שלנו, אנחנו מאפשרים לכל אדם עם טלפון חכם או רחפן זול לבצע ניתוחים ארכיאולוגיים ברמה מקצועית.",
+    companyFeatures: [
+      {
+        icon: "📱",
+        title: "צילום מהטלפון",
+        description:
+          "הפוך כל סמארטפון לכלי ארכיאולוגי מתקדם עם יכולות זיהוי AI מובנות",
+      },
+      {
+        icon: "🚁",
+        title: "סריקות מהאוויר",
+        description:
+          "זיהוי אתרים ארכיאולוגיים באמצעות רחפנים צעירים ונגישים בעלות נמוכה",
+      },
+      {
+        icon: "🏺",
+        title: "זיהוי אוטומטי",
+        description:
+          "מערכת AI מתקדמת לזיהוי עתיקות, סיווג סוגים, ושיערוך תקופות היסטוריות",
+      },
+      {
+        icon: "🗺️",
+        title: "אינטגרציה עם GovMap",
+        description:
+          "חיבור ישיר למערכת המיפוי הארצית של רשות העתיקות לתיעוד ושיתוף",
+      },
+      {
+        icon: "💻",
+        title: "פלטפורמה רב-ערוצית",
+        description: "גישה דרך אתר, אפליקציה למובייל, וממשק API למפתחים",
+      },
+      {
+        icon: "⚡",
+        title: "תוצאות מיידיות",
+        description: "קבל ניתוח מפורט תוך שניות עם רמת דיוק גבוהה",
+      },
+    ],
+    companyContactEmail: "info@archeovision.ai",
+    companyContactPhone: "04-1234567",
+    companyContactWebsite: "www.archeovision.ai",
+    companyContactText:
+      "מעוניינים לשתף פעולה? צרו איתנו קשר ונשמח להציג את המערכת שלנו!",
   });
 
   const [isLoading, setIsLoading] = useState(true);
@@ -164,7 +243,7 @@ export const ContentProvider: React.FC<ContentProviderProps> = ({
 
   const updateContent = async (
     key: keyof ContentState,
-    value: string | TeamMember[] | ThemeColors,
+    value: string | TeamMember[] | ThemeColors | GalleryImage[],
   ) => {
     // Update local state immediately for responsive UI
     setContent((prev) => ({ ...prev, [key]: value }));
@@ -177,12 +256,14 @@ export const ContentProvider: React.FC<ContentProviderProps> = ({
 
       // Also save to localStorage as backup
       if (key === "teamMembers" && Array.isArray(value)) {
-        value.forEach((member, index) => {
+        (value as TeamMember[]).forEach((member, index) => {
           localStorage.setItem(
             `member${index + 1}`,
             `${member.name}:${member.role}`,
           );
         });
+      } else if (key === "galleryImages" && Array.isArray(value)) {
+        localStorage.setItem("galleryImages", JSON.stringify(value));
       } else if (
         key === "themeColors" &&
         typeof value === "object" &&

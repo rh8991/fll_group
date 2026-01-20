@@ -1,271 +1,129 @@
-# 🤖 Technoda Warriors - FLL Team Website
+# 🤖 The Shimis - FLL Team Website
 
-Modern, responsive website for FIRST LEGO League team built with React, TypeScript, and Firebase.
+Modern FLL team website built with React, TypeScript, and Firebase.
 
-## 🌟 Features
+**Live Site**: <https://rh8991.github.io/fll_group/>
 
-### 🎨 Dynamic Content Management
+## Features
 
-- **Admin Panel** - Edit website content without touching code
-- **Real-time Sync** - Changes sync across all devices via Firebase Firestore
-- **Theme Customization** - Change colors, text, and branding on the fly
-- **Team Management** - Add/edit team member profiles dynamically
+- 🎨 **Admin Panel** - Edit content, manage team, upload images
+- 🔒 **Secure** - Password-protected with SHA-256 hashing
+- 📱 **Responsive** - Mobile-first, RTL Hebrew support
+- 🔥 **Firebase** - Real-time cloud sync across devices
+- 🚀 **Modern Stack** - React 18, TypeScript, Vite 7
 
-### 📱 Responsive Design
-
-- Mobile-first approach with breakpoints for all devices
-- Touch-friendly navigation
-- Smooth animations and transitions
-- Optimized for tablets, phones, and desktops
-
-### 🔥 Firebase Integration
-
-- **Firestore Database** - Cloud storage for all content and settings
-- **Future: Storage** - Image uploads (ready for implementation)
-- Fallback to localStorage when offline
-
-### 🚀 Modern Tech Stack
-
-- **React 18** - Component-based UI architecture
-- **TypeScript** - Type-safe code
-- **Vite** - Lightning-fast development and builds
-- **CSS Modules** - Scoped, modular styling
-- **React Router** - Client-side routing
-
-## 📁 Project Structure
-
-```fll_group/
-├── src/
-│   ├── components/          # Reusable UI components
-│   │   ├── Header/         # Navigation header
-│   │   ├── Footer/         # Site footer
-│   │   ├── AdminPanel/     # Content management panel
-│   │   └── ScrollToTop.tsx # Auto-scroll on navigation
-│   │
-│   ├── pages/              # Main page components
-│   │   ├── HomePage/       # Landing page
-│   │   │   └── sections/   # Page sections (Hero, About, etc.)
-│   │   └── CompanyPage/    # Company/project details page
-│   │
-│   ├── context/            # React Context API
-│   │   └── ContentContext.tsx  # Global state management
-│   │
-│   ├── firebase/           # Firebase configuration
-│   │   └── config.ts       # Firebase initialization
-│   │
-│   └── styles/             # Global styles
-│       └── index.css
-│
-├── assets/                 # Static assets (images, etc.)
-├── .github/workflows/      # GitHub Actions for deployment
-├── company.html           # Entry point for company page
-├── index.html             # Entry point for home page
-├── vite.config.ts         # Vite configuration
-└── package.json           # Project dependencies
-
-```
-
-## 🛠️ Setup & Installation
+## Quick Start
 
 ### Prerequisites
 
-- Node.js (v18 or higher)
-- npm or yarn
-- Firebase account (free tier works great!)
+- Node.js v18+
+- Firebase account (free tier)
 
-### 1. Clone the Repository
+### Setup
 
-```bash
-git clone https://github.com/rh8991/fll_group.git
-cd fll_group
-```
+1. **Clone & Install**:
 
-### 2. Install Dependencies
+   ```bash
+   git clone https://github.com/rh8991/fll_group.git
+   cd fll_group
+   npm install
+   ```
 
-```bash
-npm install
-```
-
-### 3. Configure Firebase (Required for Cloud Storage)
-
-Follow the detailed guide in [FIREBASE_SETUP.md](FIREBASE_SETUP.md) or quick steps:
-
-1. Create a Firebase project at [console.firebase.google.com](https://console.firebase.google.com/)
-2. Enable Firestore Database in test mode
-3. Create a web app and copy credentials
-4. Create a `.env` file in the project root:
+2. **Configure Firebase**:
+   - Create project at [Firebase Console](https://console.firebase.google.com/)
+   - Enable Firestore Database (test mode)
+   - Add web app and copy credentials
+3. **Create `.env` file**:
 
 ```env
-VITE_FIREBASE_API_KEY=your_api_key_here
-VITE_FIREBASE_AUTH_DOMAIN=your_project_id.firebaseapp.com
+VITE_FIREBASE_API_KEY=your_api_key
+VITE_FIREBASE_AUTH_DOMAIN=your_project.firebaseapp.com
 VITE_FIREBASE_PROJECT_ID=your_project_id
-VITE_FIREBASE_STORAGE_BUCKET=your_project_id.appspot.com
+VITE_FIREBASE_STORAGE_BUCKET=your_project.appspot.com
 VITE_FIREBASE_MESSAGING_SENDER_ID=your_sender_id
 VITE_FIREBASE_APP_ID=your_app_id
+VITE_ADMIN_PASSWORD_HASH=your_admin_panel_password
 ```
 
-**Note:** Without Firebase, the app will work but content will only save to browser localStorage (not synced).
+_Default password hash is for "admin123" - change immediately!_
 
-### 4. Start Development Server
+4. **Generate Password Hash** (PowerShell):
 
-```bash
-npm run dev
-```
+   ```powershell
+   $password = "YourNewPassword"
+   $bytes = [System.Text.Encoding]::UTF8.GetBytes($password)
+   $hash = [System.Security.Cryptography.SHA256]::Create().ComputeHash($bytes)
+   $hashString = [System.BitConverter]::ToString($hash).Replace("-","").ToLower()
+   Write-Host $hashString
+   ```
 
-Open [http://localhost:5173](http://localhost:5173) in your browser.
+5. **Start Development**:
 
-## 📦 Build & Deployment
+   ```bash
+   npm run dev
+   ```
 
-### Build for Production
+Open <http://localhost:5173/fll_group/>
+
+## Admin Panel
+
+**Access**: Scroll to footer → Click 🔧 icon → Enter password
+
+**Features**:
+
+- **Large Panel**: 1200px wide for comfortable editing
+- **Tabbed Interface**: Separate tabs for Homepage, Company Page, Gallery, Team, and Theme
+- **Save All Button**: Save all changes across all tabs at once
+- **Bullet Points**: Add bullet points easily with one click
+- **Comprehensive Theme Colors**:
+  - Main site colors (Primary, Secondary, Accent, Dark, Light, Text)
+  - Header colors (Background, Text)
+  - Footer colors (Background, Text)
+  - Company page colors (Primary, Secondary, Accent)
+- Edit all homepage sections (about, problem, solution, implementation)
+- Edit all company page sections (hero, about, features, contact)
+- Manage team members (add/edit/delete)
+- Upload images (max 2MB, JPG/PNG/WebP)
+- Update header/footer info
+
+## Deployment
+
+**Automatic** (GitHub Actions):
+
+- Push to `main` branch → Auto-deploys to GitHub Pages
+
+**Manual**:
 
 ```bash
 npm run build
-```
-
-Creates optimized production build in `dist/` folder.
-
-### Deploy to GitHub Pages
-
-```bash
 npm run deploy
 ```
 
-Automatically builds and deploys to GitHub Pages.
+## Commands
 
-**Or use GitHub Actions:** Push to `main` branch triggers automatic deployment via `.github/workflows/deploy.yml`.
+```bash
+npm run dev      # Start dev server
+npm run build    # Build for production
+npm run preview  # Preview build
+npm run deploy   # Deploy to GitHub Pages
+```
 
-### Deployment Configuration
+## Troubleshooting
 
-The project is configured for GitHub Pages with base path `/fll_group/` in [vite.config.ts](vite.config.ts).
+**Site stuck on "Loading..."**: Check Firebase config in `.env`, enable Firestore
 
-**To deploy to custom domain or root path:**
+**Admin won't open**: Verify password hash in `.env`, restart server
 
-1. Update `base` in [vite.config.ts](vite.config.ts)
-2. Update `basename` in [src/main.tsx](src/main.tsx)
+**Images not showing**: Check path `/fll_group/assets/images/`, clear cache
 
-## 🎮 Usage
+**Gallery upload fails**: Compress images under 2MB, use JPG/PNG/WebP
 
-### Accessing Admin Panel
+## Team
 
-1. Open the website
-2. Scroll to the footer
-3. Click the "🔧" (wrench) icon
-4. Edit content in the admin panel
-5. Changes save automatically to Firebase
-
-### Sections You Can Edit
-
-- Team information and members
-- Project description (problem/solution/implementation)
-- About section
-- Game strategy
-- Robot design details
-- Colors and theme
-- Footer information
-
-## 🏗️ Tech Stack Details
-
-| Technology   | Purpose          | Version  |
-| ------------ | ---------------- | -------- |
-| React        | UI Framework     | 18.2.0   |
-| TypeScript   | Type Safety      | 5.3.3    |
-| Vite         | Build Tool       | 7.3.1    |
-| React Router | Routing          | 6.21.1   |
-| Firebase     | Backend/Database | 12.8.0   |
-| CSS Modules  | Styling          | Built-in |
-
-## 🔧 Available Scripts
-
-| Command           | Description                      |
-| ----------------- | -------------------------------- |
-| `npm run dev`     | Start development server         |
-| `npm run build`   | Build for production             |
-| `npm run preview` | Preview production build locally |
-| `npm run lint`    | Run ESLint                       |
-| `npm run deploy`  | Deploy to GitHub Pages           |
-
-## 🎨 Customization
-
-### Changing Colors
-
-Use the admin panel or edit [src/context/ContentContext.tsx](src/context/ContentContext.tsx) default theme colors.
-
-### Adding New Sections
-
-1. Create a new component in `src/pages/HomePage/sections/`
-2. Import and add to [src/pages/HomePage/index.tsx](src/pages/HomePage/index.tsx)
-3. Create corresponding CSS module
-
-### Adding Images
-
-Place images in `assets/images/` and reference them in components.
-
-**Future:** Firebase Storage will enable dynamic image uploads through the admin panel.
-
-## 📝 Content Management
-
-### Where Content is Stored
-
-1. **Firebase Firestore** - Primary storage (syncs across devices)
-2. **localStorage** - Backup/fallback (browser-only)
-
-### Data Structure
-
-Content is stored in Firestore under collection `siteContent/mainContent`.
-
-See [src/context/ContentContext.tsx](src/context/ContentContext.tsx) for the full data schema.
-
-## 🔒 Security Notes
-
-- `.env` file is in `.gitignore` - never commit Firebase credentials
-- Firestore is in test mode by default - add security rules for production
-- See [FIREBASE_SETUP.md](FIREBASE_SETUP.md) for security configuration
-
-## 📖 Documentation
-
-- [FIREBASE_SETUP.md](FIREBASE_SETUP.md) - Complete Firebase setup guide (Hebrew)
-- [vite.config.ts](vite.config.ts) - Build configuration
-- [tsconfig.json](tsconfig.json) - TypeScript configuration
-
-## 🐛 Troubleshooting
-
-### Site shows "Loading..." forever
-
-- Check Firebase configuration in `.env`
-- Check browser console (F12) for errors
-- Verify Firestore is enabled in Firebase Console
-
-### Changes not saving
-
-- Verify Firebase credentials are correct
-- Check Firestore rules allow writes
-- Check browser console for Firebase errors
-
-### Build fails
-
-- Run `npm install` to ensure all dependencies are installed
-- Check TypeScript errors with `npm run lint`
-- Verify Node.js version (v18+)
-
-## 🤝 Contributing
-
-This is a team project for FIRST LEGO League. To contribute:
-
-1. Create a feature branch
-2. Make your changes
-3. Test thoroughly
-4. Submit a pull request
-
-## 📄 License
-
-This project is for educational purposes as part of FIRST LEGO League competition.
-
-## 👥 Team
-
-**Technoda Warriors** - FIRST LEGO League Team
+**The Shimis** - FLL Team Technoda Hadera  
+Season: UNEARTHED 2025  
+Website: <https://rh8991.github.io/fll_group/>
 
 ---
 
-**Built with ❤️ by the Technoda Warriors team**
-
-For questions or issues, open an issue on GitHub or contact the team.
+Made with ❤️ by The Shimis Team | FLL UNEARTHED 2025 🏛️
