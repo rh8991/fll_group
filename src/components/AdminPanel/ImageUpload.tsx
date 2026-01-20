@@ -1,5 +1,4 @@
 import { useState } from "react";
-import { uploadImage, deleteImage } from "@/firebase/storage";
 import { useContent } from "@/context/ContentContext";
 import styles from "./ImageUpload.module.css";
 
