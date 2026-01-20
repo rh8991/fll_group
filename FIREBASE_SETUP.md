@@ -53,13 +53,13 @@ On the screen you just saw, copy these values:
 1. Create a new file in the project root named `.env`
 2. Paste the details in this format:
 
-```VITE_FIREBASE_API_KEY=AIzaSy...
-VITE_FIREBASE_AUTH_DOMAIN=fll-group-xxxxx.firebaseapp.com
-VITE_FIREBASE_PROJECT_ID=fll-group-xxxxx
-VITE_FIREBASE_STORAGE_BUCKET=fll-group-xxxxx.appspot.com
-VITE_FIREBASE_MESSAGING_SENDER_ID=123456789
-VITE_FIREBASE_APP_ID=1:123456789:web:abcdef123456
-```
+   ```VITE_FIREBASE_API_KEY=AIzaSy...
+   VITE_FIREBASE_AUTH_DOMAIN=fll-group-xxxxx.firebaseapp.com
+   VITE_FIREBASE_PROJECT_ID=fll-group-xxxxx
+   VITE_FIREBASE_STORAGE_BUCKET=fll-group-xxxxx.appspot.com
+   VITE_FIREBASE_MESSAGING_SENDER_ID=123456789
+   VITE_FIREBASE_APP_ID=1:123456789:web:abcdef123456
+   ```
 
 3. **Save the file!** (It's in `.gitignore` so it won't be uploaded to GitHub)
 
