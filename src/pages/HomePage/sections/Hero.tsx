@@ -14,7 +14,9 @@ const Hero = () => {
       <p className={styles.subtitle}>
         חושפים את העבר, בונים את העתיד - ארכיאולוגיה בעידן הדיגיטלי
       </p>
-      <p className={styles.location}>הטכנודע חדרה | עונת UNEARTHED 2025</p>
+      <p className={styles.location}>
+        1911 | טכנודע חדרה | עונת UNEARTHED 2026
+      </p>
     </section>
   );
 };

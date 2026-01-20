@@ -14,7 +14,7 @@ const Header: React.FC<HeaderProps> = ({ theme = "default" }) => {
   const [logoError, setLogoError] = useState(false);
 
   // Provide default values if data is missing
-  const title = headerTitle || "Technoda Warriors";
+  const title = headerTitle || "The Shimis";
   const companyTitle = headerCompanyTitle || "ArcheoVision AI";
 
   useEffect(() => {

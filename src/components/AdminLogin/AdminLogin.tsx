@@ -28,7 +28,16 @@ const AdminLogin: React.FC<AdminLoginProps> = ({
 
     try {
       const hashedInput = await hashPassword(password);
-      const storedHash = import.meta.env.VITE_ADMIN_PASSWORD_HASH;
+      const storedHash = import.meta.env.VITE_ADMIN_PASSWORD_HASH?.trim();
+
+      console.log("Input hash:", hashedInput);
+      console.log("Stored hash:", storedHash);
+      console.log("Match:", hashedInput === storedHash);
+
+      if (!storedHash) {
+        setError("שגיאת הגדרות - צור קשר עם מנהל");
+        return;
+      }
 
       if (hashedInput === storedHash) {
         // Store authentication in sessionStorage (cleared when browser closes)
@@ -40,6 +49,7 @@ const AdminLogin: React.FC<AdminLoginProps> = ({
       }
     } catch (err) {
       setError("שגיאה בהתחברות");
+      console.error("Login error:", err);
     } finally {
       setIsLoading(false);
     }

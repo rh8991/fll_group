@@ -17,7 +17,7 @@ const Footer: React.FC<FooterProps> = ({
   const season = footerSeason || "FIRST LEGO League - עונת UNEARTHED 2026";
   const copyright =
     footerCopyright ||
-    "© 2024-2025 Technoda Warriors FLL | כל הזכויות שמורות\nכבוד הדדי • שיתוף פעולה • חדשנות • התמדה";
+    "© 2025-2026 The Shimis | כל הזכויות שמורות\nכבוד הדדי • שיתוף פעולה • חדשנות • התמדה";
 
   return (
     <footer className={styles.footer} id="contact">

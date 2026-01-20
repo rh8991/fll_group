@@ -106,12 +106,12 @@ export const ContentProvider: React.FC<ContentProviderProps> = ({
       companySecondary: "#159895",
       companyAccent: "#57c5b6",
     },
-    headerTitle: "Technoda Warriors",
+    headerTitle: "The Shimis",
     headerCompanyTitle: "ArcheoVision AI",
     footerLocation: "📍 הטכנודע, חדרה",
-    footerSeason: "🏛️ FIRST LEGO League - עונת UNEARTHED 2025",
+    footerSeason: "🏛️ FIRST LEGO League - עונת UNEARTHED 2026",
     footerCopyright:
-      "© 2024-2025 Technoda Warriors FLL | כל הזכויות שמורות\nכבוד הדדי • שיתוף פעולה • חדשנות • התמדה",
+      "© 2024-2025 The Shimis | כל הזכויות שמורות\nכבוד הדדי • שיתוף פעולה • חדשנות • התמדה",
     galleryImages: [],
     // Company Page Content
     companyHeroTitle: "ArcheoVision AI",
