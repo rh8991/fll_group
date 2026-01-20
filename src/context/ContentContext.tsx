@@ -90,13 +90,18 @@ export const ContentProvider: React.FC<ContentProviderProps> = ({
   useEffect(() => {
     const loadContent = async () => {
       try {
+        console.log("Starting to load Firebase...");
         const docRef = doc(db, "siteContent", "main");
+        console.log("Firebase docRef created");
         const docSnap = await getDoc(docRef);
+        console.log("Firebase getDoc completed", docSnap.exists());
 
         if (docSnap.exists()) {
           const data = docSnap.data() as ContentState;
+          console.log("Loaded data from Firebase:", data);
           setContent(data);
         } else {
+          console.log("No data in Firebase, creating default...");
           // If no data exists yet, save the default content with current state
           const defaultContent = {
             aboutText: "",
@@ -121,12 +126,15 @@ export const ContentProvider: React.FC<ContentProviderProps> = ({
               "© 2024-2025 Technoda Warriors FLL | כל הזכויות שמורות\nכבוד הדדי • שיתוף פעולה • חדשנות • התמדה",
           };
           await setDoc(docRef, defaultContent);
+          console.log("Default content saved to Firebase");
         }
       } catch (error) {
         console.error("Error loading content from Firebase:", error);
+        console.log("Falling back to localStorage...");
         // Fallback to localStorage if Firebase fails
         loadFromLocalStorage();
       } finally {
+        console.log("Setting isLoading to false");
         setIsLoading(false);
       }
     };

@@ -1,48 +1,57 @@
-# 🔥 הגדרת Firebase למערכת עריכת התוכן
+# 🔥 Firebase Setup for Content Management System
 
-## מה השתנה?
+## What's This For?
 
-עכשיו כשילדים בקבוצה יערכו טקסט באתר דרך פאנל הניהול, השינויים ישמרו בענן ויהיו נראים לכולם!
+When team members edit text and colors on the website through the admin panel, the changes are saved to the cloud and visible to everyone!
 
-## שלבי ההתקנה (5 דקות)
+**This system includes:**
 
-### שלב 1: צור פרויקט Firebase (חינם!)
+- ✅ **Firestore Database** - For storing text, colors, and all site content
+- ✅ **Firebase Storage** - (Future) For storing images in the cloud
 
-1. כנס ל-<https://console.firebase.google.com/>
-2. לחץ על "הוסף פרויקט" (Add project)
-3. תן שם לפרויקט (למשל: "fll-group")
-4. בחר "המשך" (Continue) - לא צריך Google Analytics
-5. המתן שהפרויקט ייווצר
+## Setup Steps (5 Minutes)
 
-### שלב 2: הפעל Firestore Database
+### Step 1: Create a Firebase Project (Free!)
 
-1. בתפריט הצד, לחץ על "Firestore Database"
-2. לחץ על "צור מסד נתונים" (Create database)
-3. בחר "התחל במצב בדיקה" (Start in test mode) - **חשוב!**
-4. בחר מיקום (europe-west או us-central - לא משנה)
-5. לחץ "אפשר" (Enable)
+1. Go to <https://console.firebase.google.com/>
+2. Click "Add project"
+3. Give your project a name (e.g., "fll-group")
+4. Click "Continue" - You don't need Google Analytics
+5. Wait for the project to be created
 
-### שלב 3: הוסף אפליקציית Web
+### Step 2: Enable Firestore Database
 
-1. בדף הראשי של הפרויקט, לחץ על סמל "Web" (</>)
-2. תן שם לאפליקציה (למשל: "FLL Website")
-3. **אל תסמן** "Firebase Hosting" - לא צריך
-4. לחץ "רשום אפליקציה" (Register app)
-5. תראה מסך עם קוד - **אל תסגור אותו!**
+1. In the side menu, click "Firestore Database"
+2. Click "Create database"
+3. Select "Start in test mode" - **Important!**
+4. Choose a location (europe-west or us-central - doesn't matter)
+5. Click "Enable"
 
-### שלב 4: העתק את הפרטים שלך
+### Step 3: Add a Web App
 
-1. במסך שראית, העתק את הערכים האלה:
-   - apiKey
-   - authDomain
-   - projectId
-   - storageBucket
-   - messagingSenderId
-   - appId
+1. On the project homepage, click the "Web" icon (</>)
+2. Give the app a name (e.g., "FLL Website")
+3. **Don't check** "Firebase Hosting" - not needed
+4. Click "Register app"
+5. You'll see a screen with code - **Don't close it!**
 
-2. צור קובץ חדש בשורש הפרויקט בשם `.env`
+### Step 4: Copy Your Credentials
 
-3. הדבק את הפרטים בפורמט הזה:
+On the screen you just saw, copy these values:
+
+- apiKey
+- authDomain
+- projectId
+- storageBucket
+- messagingSenderId
+- appId
+
+**Choose your setup method:**
+
+#### Option A: Local Development (Your Computer)
+
+1. Create a new file in the project root named `.env`
+2. Paste the details in this format:
 
 ```VITE_FIREBASE_API_KEY=AIzaSy...
 VITE_FIREBASE_AUTH_DOMAIN=fll-group-xxxxx.firebaseapp.com
@@ -52,62 +61,102 @@ VITE_FIREBASE_MESSAGING_SENDER_ID=123456789
 VITE_FIREBASE_APP_ID=1:123456789:web:abcdef123456
 ```
 
-**שמור את הקובץ!**
+3. **Save the file!** (It's in `.gitignore` so it won't be uploaded to GitHub)
 
-### שלב 5: הפעל מחדש את השרת
+#### Option B: GitHub Codespaces
 
-1. עצור את השרת (Ctrl+C בטרמינל)
-2. הפעל שוב:
+To use this project in Codespaces, add your credentials as secrets:
+
+1. Go to your GitHub repository
+2. Click **Settings** → **Secrets and variables** → **Codespaces**
+3. Click **New repository secret** and add each value:
+   - Name: `VITE_FIREBASE_API_KEY` | Value: `AIzaSy...`
+   - Name: `VITE_FIREBASE_AUTH_DOMAIN` | Value: `fll-group-xxxxx.firebaseapp.com`
+   - Name: `VITE_FIREBASE_PROJECT_ID` | Value: `fll-group-xxxxx`
+   - Name: `VITE_FIREBASE_STORAGE_BUCKET` | Value: `fll-group-xxxxx.appspot.com`
+   - Name: `VITE_FIREBASE_MESSAGING_SENDER_ID` | Value: `123456789`
+   - Name: `VITE_FIREBASE_APP_ID` | Value: `1:123456789:web:abcdef123456`
+
+4. These secrets will automatically be available as environment variables when you open Codespaces!
+
+### Step 5: Restart the Server
+
+1. Stop the server (Ctrl+C in terminal)
+2. Start it again:
 
 ```bash
 npm run dev
 ```
 
-## ✅ זה הכל! עכשיו השינויים נשמרים בענן
+## ✅ That's It! Changes Now Save to the Cloud
 
-### איך לבדוק שזה עובד?
+### How to Check if It's Working?
 
-1. פתח את האתר בדפדפן
-2. ערוך משהו בפאנל הניהול
-3. פתח את האתר בדפדפן אחר או במכשיר אחר
-4. תראה את השינויים שעשית!
+1. Open the website in a browser
+2. Edit something in the admin panel
+3. Open the website in another browser or device
+4. You'll see the changes you made!
 
-### איך לראות את הנתונים ב-Firebase?
+### How to View Data in Firebase?
 
-1. כנס ל-<https://console.firebase.google.com/>
-2. בחר את הפרויקט שלך
-3. לחץ על "Firestore Database" בתפריט הצד
-4. תראה את כל התוכן שהילדים ערכו!
+1. Go to <https://console.firebase.google.com/>
+2. Select your project
+3. Click "Firestore Database" in the side menu
+4. You'll see all the content that was edited!
 
-## 🔒 אבטחה (חשוב!)
+## 🔒 Security (Important!)
 
-כרגע המערכת פתוחה למי שרוצה לערוך (מצב בדיקה). כשתרצה להגביל גישה:
+Currently, the system is open for anyone to edit (test mode). When you want to restrict access:
 
-1. עבור ל-Firestore Database > Rules
-2. החלף את הכללים הקיימים ב:
+1. Go to Firestore Database > Rules
+2. Replace the existing rules with:
 
 ```rules_version = '2';
 service cloud.firestore {
   match /databases/{database}/documents {
     match /siteContent/{document=**} {
-      allow read: if true; // כולם יכולים לקרוא
-      allow write: if request.auth != null; // רק משתמשים מחוברים יכולים לכתוב
+      allow read: if true; // Everyone can read
+      allow write: if request.auth != null; // Only authenticated users can write
     }
   }
 }
 ```
 
-אם תרצה הרשאות מתקדמות יותר, תוכל להוסיף Authentication ולתת גישה רק למשתמשים ספציפיים.
+If you want more advanced permissions, you can add Authentication and give access only to specific users.
 
-## ⚠️ חשוב
+## ⚠️ Important
 
-- **אל תעלה את קובץ `.env` ל-GitHub!** (הוא כבר נמצא ב-.gitignore)
-- אם תרצה לפרסם את האתר, תצטרך להגדיר את המשתנים בשירות ההוסטינג שלך
+- **Don't upload the `.env` file to GitHub!** (It's already in .gitignore)
+- If you want to publish the site, you'll need to set the variables in your hosting service
 
-## 🆘 צריך עזרה?
+---
 
-אם משהו לא עובד:
+## 📸 Future: Firebase Storage for Images
 
-1. בדוק שיצרת את קובץ `.env` עם הפרטים הנכונים
-2. בדוק שהפעלת את השרת מחדש אחרי יצירת `.env`
-3. בדוק בקונסול של הדפדפן (F12) אם יש שגיאות
+Currently, images are stored in the project itself. If you want to enable image uploads through the admin panel:
+
+### Setting up Firebase Storage
+
+1. In the Firebase Console, click "Storage" in the side menu
+2. Click "Get Started"
+3. Select "Start in test mode"
+4. Click "Done"
+
+### What Does This Enable?
+
+- Upload images directly through the website
+- Store images in the cloud (not in the project)
+- Access images from any device
+- No need to update code every time you add an image
+
+**Note:** Additional code is needed to use Storage. If you want this, it can be added in the future.
+
+---
+
+## 🆘 Need Help?
+
+If something doesn't work:
+
+1. Check that you created the `.env` file with the correct details
+2. Check that you restarted the server after creating `.env`
+3. Check the browser console (F12) for errors

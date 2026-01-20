@@ -12,6 +12,10 @@ const Header: React.FC<HeaderProps> = ({ theme = "default" }) => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
 
+  // Provide default values if data is missing
+  const title = headerTitle || "Technoda Warriors";
+  const companyTitle = headerCompanyTitle || "ArcheoVision AI";
+
   useEffect(() => {
     const handleScroll = () => {
       setScrolled(window.scrollY > 50);
@@ -31,7 +35,7 @@ const Header: React.FC<HeaderProps> = ({ theme = "default" }) => {
           <Link to="/">
             <span className={styles.logoIcon}>{isCompany ? "🏛️" : "🏛️"}</span>
             <span className={styles.logoText}>
-              {isCompany ? headerCompanyTitle : headerTitle}
+              {isCompany ? companyTitle : title}
             </span>
           </Link>
         </div>
