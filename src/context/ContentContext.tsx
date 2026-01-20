@@ -86,55 +86,29 @@ export const ContentProvider: React.FC<ContentProviderProps> = ({
 
   const [isLoading, setIsLoading] = useState(true);
 
-  // Load content from Firebase on mount
+  // Load content from Firebase on mount with timeout
   useEffect(() => {
     const loadContent = async () => {
+      // Set a 3-second timeout to prevent infinite loading
+      const timeoutId = setTimeout(() => {
+        console.warn("Firebase loading timeout - using defaults");
+        setIsLoading(false);
+      }, 3000);
+
       try {
-        console.log("Starting to load Firebase...");
         const docRef = doc(db, "siteContent", "main");
-        console.log("Firebase docRef created");
         const docSnap = await getDoc(docRef);
-        console.log("Firebase getDoc completed", docSnap.exists());
 
         if (docSnap.exists()) {
           const data = docSnap.data() as ContentState;
-          console.log("Loaded data from Firebase:", data);
           setContent(data);
-        } else {
-          console.log("No data in Firebase, creating default...");
-          // If no data exists yet, save the default content with current state
-          const defaultContent = {
-            aboutText: "",
-            problemText: "",
-            solutionText: "",
-            implementationText: "",
-            companyLink: "",
-            teamMembers: Array(10).fill({ name: "", role: "" }),
-            themeColors: {
-              primary: "#2f3a7e",
-              secondary: "#6b4f2c",
-              accent: "#8ea19e",
-              dark: "#121826",
-              light: "#f3efe6",
-              text: "#fcf6f6",
-            },
-            headerTitle: "Technoda Warriors",
-            headerCompanyTitle: "ArcheoVision AI",
-            footerLocation: "📍 הטכנודע, חדרה",
-            footerSeason: "🏛️ FIRST LEGO League - עונת UNEARTHED 2025",
-            footerCopyright:
-              "© 2024-2025 Technoda Warriors FLL | כל הזכויות שמורות\nכבוד הדדי • שיתוף פעולה • חדשנות • התמדה",
-          };
-          await setDoc(docRef, defaultContent);
-          console.log("Default content saved to Firebase");
         }
       } catch (error) {
         console.error("Error loading content from Firebase:", error);
-        console.log("Falling back to localStorage...");
         // Fallback to localStorage if Firebase fails
         loadFromLocalStorage();
       } finally {
-        console.log("Setting isLoading to false");
+        clearTimeout(timeoutId);
         setIsLoading(false);
       }
     };
