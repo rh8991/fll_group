@@ -8,7 +8,7 @@ import styles from "./SmartArchaeology.module.css";
 const GOVMAP_URL = "https://apq9h.app.goo.gl/wBD8";
 
 interface Prediction {
-  class: string;
+  className: string;
   probability: number;
 }
 
@@ -43,18 +43,53 @@ const SmartArchaeologyPage: React.FC = () => {
           return;
         }
 
-        // Load the tmImage library from Google
-        const script1 = document.createElement("script");
-        script1.src =
-          "https://cdn.jsdelivr.net/npm/@teachablemachine/image@0.8/dist/teachablemachine-image.js";
-        script1.async = true;
+        // Timeout wrapper for async operations
+        const withTimeout = <T,>(
+          promise: Promise<T>,
+          ms: number,
+          errorMsg: string,
+        ): Promise<T> => {
+          return Promise.race([
+            promise,
+            new Promise<T>((_, reject) =>
+              setTimeout(() => reject(new Error(errorMsg)), ms),
+            ),
+          ]);
+        };
 
-        await new Promise<void>((resolve, reject) => {
-          script1.onload = () => resolve();
-          script1.onerror = () =>
-            reject(new Error("Failed to load tmImage library"));
-          document.body.appendChild(script1);
-        });
+        // Load TensorFlow.js first
+        const tfScript = document.createElement("script");
+        tfScript.src =
+          "https://cdn.jsdelivr.net/npm/@tensorflow/tfjs@latest/dist/tf.min.js";
+        tfScript.async = true;
+
+        await withTimeout(
+          new Promise<void>((resolve, reject) => {
+            tfScript.onload = () => resolve();
+            tfScript.onerror = () =>
+              reject(new Error("Failed to load TensorFlow.js"));
+            document.body.appendChild(tfScript);
+          }),
+          10000,
+          "פסק זמן טעינת TensorFlow.js",
+        );
+
+        // Load the tmImage library from Google
+        const tmScript = document.createElement("script");
+        tmScript.src =
+          "https://cdn.jsdelivr.net/npm/@teachablemachine/image@latest/dist/teachablemachine-image.min.js";
+        tmScript.async = true;
+
+        await withTimeout(
+          new Promise<void>((resolve, reject) => {
+            tmScript.onload = () => resolve();
+            tmScript.onerror = () =>
+              reject(new Error("Failed to load tmImage library"));
+            document.body.appendChild(tmScript);
+          }),
+          10000,
+          "פסק זמן טעינת ספריית Teachable Machine",
+        );
 
         // Extract the model URL from the code snippet
         const urlMatch = teachableMachineCode.match(
@@ -64,34 +99,33 @@ const SmartArchaeologyPage: React.FC = () => {
           throw new Error("Could not extract model URL from code snippet");
         }
 
-        // Execute the Teachable Machine code in a function scope
-        // eslint-disable-next-line @typescript-eslint/no-implied-eval
-        const codeWithOverrides = `
-          (async () => {
-            ${teachableMachineCode}
-            
-            // Make init and predict available to the page
-            window.tmInit = typeof init !== 'undefined' ? init : null;
-            window.tmPredict = typeof predict !== 'undefined' ? predict : null;
-            window.tmURL = URL;
-            window.tmImage = typeof tmImage !== 'undefined' ? tmImage : null;
-          })();
-        `;
+        const modelURL = urlMatch[1];
+        console.log("🔗 Model URL:", modelURL);
 
-        const functionBody = new Function(codeWithOverrides);
-        await functionBody();
-
-        // Verify the functions are available
-        const tmGlobal = window as any;
-        if (!tmGlobal.tmInit || !tmGlobal.tmPredict) {
-          throw new Error(
-            "Code snippet does not contain init() and predict() functions",
-          );
+        // Load model directly using tmImage (not the init function which sets up webcam)
+        const tmImage = (window as any).tmImage;
+        if (!tmImage) {
+          throw new Error("tmImage library not loaded");
         }
+
+        console.log("🚀 Loading model from Teachable Machine...");
+        const model = (await withTimeout(
+          tmImage.load(modelURL + "model.json", modelURL + "metadata.json"),
+          30000,
+          "פסק זמן בטעינת המודל - המודל יכול להיות גדול מדי או שהחיבור איטי",
+        )) as any;
+
+        // Store model globally for predict function
+        (window as any).tmModel = model;
+        (window as any).tmImage = tmImage;
+
+        console.log("✅ Model loaded successfully!");
+        console.log("📊 Total classes:", model.getTotalClasses());
 
         setModelLoaded(true);
         setError("");
       } catch (err: any) {
+        console.error("❌ Model loading error:", err);
         setError(`שגיאה בטעינת המודל: ${err.message}`);
         setModelLoaded(false);
       } finally {
@@ -245,9 +279,9 @@ const SmartArchaeologyPage: React.FC = () => {
         await new Promise((resolve) => setTimeout(resolve, 1500));
 
         const samplePredictions: Prediction[] = [
-          { class: "תקופה ברונזית", probability: 85.42 },
-          { class: "תקופה רומית", probability: 12.38 },
-          { class: "תקופה מוסלמית מוקדמת", probability: 2.2 },
+          { className: "תקופה ברונזית", probability: 85.42 },
+          { className: "תקופה רומית", probability: 12.38 },
+          { className: "תקופה מוסלמית מוקדמת", probability: 2.2 },
         ];
 
         setPredictions(samplePredictions);
@@ -263,9 +297,9 @@ const SmartArchaeologyPage: React.FC = () => {
         try {
           const tmGlobal = window as any;
 
-          // Check if predict function is available
-          if (!tmGlobal.tmPredict) {
-            throw new Error("Model predict function not available");
+          // Check if model is available
+          if (!tmGlobal.tmModel) {
+            throw new Error("Model not loaded");
           }
 
           // Create a canvas element with the image
@@ -280,31 +314,16 @@ const SmartArchaeologyPage: React.FC = () => {
 
           ctx.drawImage(img, 0, 0);
 
-          // Call the Teachable Machine predict function
-          const prediction = await tmGlobal.tmPredict(canvas);
+          // Call the Teachable Machine predict function directly on the model
+          console.log("🔮 Running prediction...");
+          const prediction = await tmGlobal.tmModel.predict(canvas);
+          console.log("📊 Raw prediction:", prediction);
 
           // Convert predictions to our format
-          const predictionResults: Prediction[] = [];
-
-          if (Array.isArray(prediction)) {
-            // If prediction is an array of objects with class and probability
-            predictionResults.push(
-              ...prediction.map((p: any) => ({
-                class: p.class || p.className || "Unknown",
-                probability: (p.probability || p.prob || 0) * 100,
-              })),
-            );
-          } else if (typeof prediction === "object") {
-            // If prediction is an object with class names as keys
-            Object.entries(prediction).forEach(
-              ([className, prob]: [string, any]) => {
-                predictionResults.push({
-                  class: className,
-                  probability: (prob as number) * 100,
-                });
-              },
-            );
-          }
+          const predictionResults: Prediction[] = prediction.map((p: any) => ({
+            className: p.className,
+            probability: p.probability * 100,
+          }));
 
           // Sort by probability descending
           predictionResults.sort((a, b) => b.probability - a.probability);
@@ -558,7 +577,7 @@ const SmartArchaeologyPage: React.FC = () => {
             <div className={styles.resultsContainer}>
               <div className={styles.mainPrediction}>
                 <p className={styles.resultLabel}>תקופה היסטורית משוערת</p>
-                <h3 className={styles.mainClass}>{predictions[0].class}</h3>
+                <h3 className={styles.mainClass}>{predictions[0].className}</h3>
                 <p className={styles.mainConfidence}>
                   ביטחון: {predictions[0].probability.toFixed(2)}%
                 </p>
@@ -569,7 +588,9 @@ const SmartArchaeologyPage: React.FC = () => {
                 <div className={styles.predictionsList}>
                   {predictions.map((pred, index) => (
                     <div key={index} className={styles.predictionItem}>
-                      <div className={styles.predictionLabel}>{pred.class}</div>
+                      <div className={styles.predictionLabel}>
+                        {pred.className}
+                      </div>
                       <div className={styles.confidenceBar}>
                         <div
                           className={styles.confidenceFill}
