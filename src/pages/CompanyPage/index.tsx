@@ -82,7 +82,7 @@ const CompanyPage = () => {
                 <p className={styles.demoSubtext}>
                   צילום → העלאה → ניתוח AI → תוצאות
                 </p>
-                <Link to="archaeology" className={styles.demoButton}>
+                <Link to="/archaeology" className={styles.demoButton}>
                   🚀 נסו חינם
                 </Link>
               </div>
