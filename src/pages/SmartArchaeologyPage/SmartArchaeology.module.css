@@ -1,0 +1,727 @@
+.pageContainer {
+  --primary: #2f3a7e;
+  --secondary: #6b4f2c;
+  --accent: #8ea19e;
+  --dark: #121826;
+  --light: #f3efe6;
+  --text: #fcf6f6;
+
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+  background-color: var(--light);
+  color: var(--dark);
+}
+
+.mainContent {
+  flex: 1;
+  padding: 2rem;
+  max-width: 1200px;
+  margin: 0 auto;
+  width: 100%;
+}
+
+/* Hero Section */
+.heroSection {
+  margin-bottom: 3rem;
+  padding: 2rem;
+  background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);
+  border-radius: 12px;
+  color: var(--text);
+  text-align: center;
+}
+
+.heroContent {
+  max-width: 900px;
+  margin: 0 auto;
+}
+
+.title {
+  font-size: 2.5rem;
+  font-weight: bold;
+  margin: 0 0 1.5rem 0;
+  direction: rtl;
+}
+
+.description {
+  font-size: 1.1rem;
+  line-height: 1.6;
+  margin: 0;
+  direction: rtl;
+  text-align: right;
+}
+
+/* Upload Section */
+.uploadSection {
+  margin-bottom: 3rem;
+  padding: 2rem;
+  background: white;
+  border-radius: 12px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+.uploadContainer {
+  max-width: 1400px;
+  margin: 0 auto;
+}
+
+.mainContent {
+  margin-top: 2rem;
+}
+
+.contentWrapper {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 2rem;
+  align-items: start;
+}
+
+@media (max-width: 1024px) {
+  .contentWrapper {
+    grid-template-columns: 1fr;
+  }
+}
+
+.uploadIntro {
+  text-align: center;
+  color: var(--dark);
+  font-size: 1rem;
+  margin-bottom: 2rem;
+  direction: rtl;
+}
+
+.cameraPanel {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+
+.cameraContainer {
+  border-radius: 12px;
+  overflow: hidden;
+  background: white;
+}
+
+.uploadPanel {
+  margin-bottom: 1.5rem;
+}
+
+.uploadBox {
+  padding: 3rem 2rem;
+  border: 2px dashed var(--accent);
+  border-radius: 12px;
+  text-align: center;
+  background: linear-gradient(
+    135deg,
+    rgba(142, 161, 158, 0.05) 0%,
+    rgba(142, 161, 158, 0.1) 100%
+  );
+  direction: rtl;
+  transition: all 0.3s ease;
+}
+
+.uploadBox:hover {
+  border-color: var(--primary);
+  background: linear-gradient(
+    135deg,
+    rgba(47, 58, 126, 0.05) 0%,
+    rgba(47, 58, 126, 0.1) 100%
+  );
+}
+
+.uploadIconArea {
+  font-size: 3.5rem;
+  margin-bottom: 1rem;
+  animation: float 3s ease-in-out infinite;
+}
+
+@keyframes float {
+  0%,
+  100% {
+    transform: translateY(0px);
+  }
+  50% {
+    transform: translateY(-10px);
+  }
+}
+
+.uploadIcon {
+  display: inline-block;
+}
+
+.uploadText {
+  font-size: 1.3rem;
+  font-weight: bold;
+  color: var(--primary);
+  margin: 0.5rem 0;
+  direction: rtl;
+}
+
+.uploadSubtext {
+  font-size: 0.9rem;
+  color: var(--dark);
+  margin: 0.5rem 0 2rem 0;
+  opacity: 0.7;
+  direction: rtl;
+}
+
+.fileInput {
+  display: none;
+}
+
+.uploadButton {
+  padding: 0.75rem 2rem;
+  background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);
+  color: var(--text);
+  border: none;
+  border-radius: 8px;
+  font-size: 1rem;
+  font-weight: bold;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  direction: rtl;
+  box-shadow: 0 4px 12px rgba(47, 58, 126, 0.2);
+}
+
+.uploadButton:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 16px rgba(47, 58, 126, 0.3);
+}
+
+.uploadSuccessBox {
+  padding: 3rem 2rem;
+  border: 2px solid #4caf50;
+  border-radius: 12px;
+  text-align: center;
+  background: linear-gradient(
+    135deg,
+    rgba(76, 175, 80, 0.05) 0%,
+    rgba(76, 175, 80, 0.1) 100%
+  );
+  direction: rtl;
+}
+
+.successIcon {
+  font-size: 3.5rem;
+  color: #4caf50;
+  margin-bottom: 1rem;
+  animation: checkmark 0.6s ease;
+}
+
+@keyframes checkmark {
+  0% {
+    transform: scale(0);
+    opacity: 0;
+  }
+  50% {
+    transform: scale(1.2);
+  }
+  100% {
+    transform: scale(1);
+    opacity: 1;
+  }
+}
+
+.successText {
+  font-size: 1.2rem;
+  color: #4caf50;
+  font-weight: bold;
+  margin-bottom: 1.5rem;
+  direction: rtl;
+}
+
+.changeImageButton {
+  padding: 0.65rem 1.5rem;
+  background-color: var(--accent);
+  color: white;
+  border: none;
+  border-radius: 8px;
+  font-size: 0.95rem;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  direction: rtl;
+}
+
+.changeImageButton:hover {
+  background-color: var(--primary);
+  transform: translateY(-2px);
+}
+
+/* Video/Camera Styles */
+.videoContainer {
+  position: relative;
+  background: #000;
+  border-radius: 12px;
+  overflow: hidden;
+}
+
+.videoElement {
+  width: 100%;
+  height: auto;
+  display: block;
+  object-fit: cover;
+}
+
+.cameraControls {
+  display: flex;
+  gap: 1rem;
+  justify-content: center;
+  padding: 1rem;
+  background: #1a1a1a;
+  direction: rtl;
+}
+
+.captureButton {
+  padding: 0.65rem 1.5rem;
+  background: linear-gradient(135deg, #4caf50 0%, #45a049 100%);
+  color: white;
+  border: none;
+  border-radius: 8px;
+  font-size: 0.95rem;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  direction: rtl;
+  font-weight: bold;
+}
+
+.captureButton:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(76, 175, 80, 0.3);
+}
+
+.closeCameraButton {
+  padding: 0.65rem 1.5rem;
+  background: #f44336;
+  color: white;
+  border: none;
+  border-radius: 8px;
+  font-size: 0.95rem;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  direction: rtl;
+  font-weight: bold;
+}
+
+.closeCameraButton:hover {
+  background: #da190b;
+  transform: translateY(-2px);
+}
+
+.previewSection {
+  margin-top: 2rem;
+  padding-top: 2rem;
+  border-top: 2px solid var(--light);
+}
+
+.previewTitle {
+  text-align: center;
+  color: var(--primary);
+  margin-bottom: 1rem;
+  direction: rtl;
+}
+
+.imagePreview {
+  margin: 1rem 0;
+  text-align: center;
+}
+
+.imagePreview img {
+  max-width: 100%;
+  max-height: 400px;
+  border-radius: 12px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+  border: 2px solid var(--accent);
+}
+
+.analyzeButton {
+  width: 100%;
+  padding: 1rem;
+  background-color: var(--accent);
+  color: white;
+  border: none;
+  border-radius: 6px;
+  font-size: 1.1rem;
+  font-weight: bold;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+  direction: rtl;
+}
+
+.analyzeButton:hover:not(:disabled) {
+  background-color: var(--secondary);
+}
+
+.analyzeButton:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+.statusMessage {
+  margin-top: 1rem;
+  text-align: center;
+  font-size: 0.95rem;
+  direction: rtl;
+}
+
+.errorMessage {
+  margin-top: 1rem;
+  padding: 1rem;
+  background-color: #ffe6e6;
+  color: #cc0000;
+  border-radius: 6px;
+  text-align: right;
+  direction: rtl;
+}
+
+/* GovMap Panel */
+.govmapPanel {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  background: #f9f9f9;
+  padding: 2rem;
+  border-radius: 12px;
+  border: 1px solid #e0e0e0;
+}
+
+.govmapTitle {
+  color: var(--primary);
+  margin: 0;
+  direction: rtl;
+  text-align: right;
+  font-size: 1.3rem;
+}
+
+.govmapNote {
+  color: var(--dark);
+  font-size: 0.9rem;
+  margin: 0;
+  direction: rtl;
+  text-align: right;
+  opacity: 0.8;
+}
+
+.mapWrapper {
+  position: relative;
+  width: 100%;
+  height: 500px;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  overflow: hidden;
+  background: white;
+}
+
+.govmapIframe {
+  width: 100%;
+  height: 100%;
+  border: none;
+  pointer-events: none;
+}
+
+.mapWrapper:hover .govmapIframe {
+  pointer-events: auto;
+}
+
+@media (max-width: 1024px) {
+  .mapWrapper {
+    height: 400px;
+  }
+}
+
+@media (max-width: 768px) {
+  .mapWrapper {
+    height: 300px;
+  }
+}
+
+/* Results Section */
+.resultsSection {
+  margin-bottom: 3rem;
+  padding: 2rem;
+  background: white;
+  border-radius: 12px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+.resultsContainer {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 2rem;
+  margin-bottom: 2rem;
+}
+
+@media (max-width: 768px) {
+  .resultsContainer {
+    grid-template-columns: 1fr;
+  }
+}
+
+.mainPrediction {
+  padding: 1.5rem;
+  background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);
+  border-radius: 8px;
+  color: var(--text);
+  text-align: center;
+  direction: rtl;
+}
+
+.resultLabel {
+  font-size: 0.9rem;
+  opacity: 0.9;
+  margin: 0;
+  direction: rtl;
+}
+
+.mainClass {
+  font-size: 2rem;
+  font-weight: bold;
+  margin: 1rem 0;
+  direction: rtl;
+}
+
+.mainConfidence {
+  font-size: 1.2rem;
+  margin: 0;
+  direction: rtl;
+}
+
+.allPredictions {
+  direction: rtl;
+}
+
+.allPredictions h3 {
+  color: var(--primary);
+  margin-top: 0;
+  text-align: right;
+  direction: rtl;
+}
+
+.predictionsList {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.predictionItem {
+  display: grid;
+  grid-template-columns: 120px 1fr 60px;
+  gap: 1rem;
+  align-items: center;
+  direction: rtl;
+}
+
+@media (max-width: 768px) {
+  .predictionItem {
+    grid-template-columns: 100px 1fr 50px;
+  }
+}
+
+.predictionLabel {
+  font-weight: bold;
+  color: var(--primary);
+  text-align: right;
+  direction: rtl;
+}
+
+.confidenceBar {
+  background-color: #e0e0e0;
+  border-radius: 4px;
+  height: 20px;
+  overflow: hidden;
+}
+
+.confidenceFill {
+  height: 100%;
+  transition: width 0.3s ease;
+}
+
+.predictionPercent {
+  text-align: left;
+  font-weight: bold;
+  color: var(--secondary);
+  font-size: 0.9rem;
+}
+
+.disclaimer {
+  margin-top: 2rem;
+  padding: 1.5rem;
+  background-color: #fffbea;
+  border-left: 4px solid var(--accent);
+  border-radius: 4px;
+  direction: rtl;
+  text-align: right;
+}
+
+.disclaimer strong {
+  color: var(--primary);
+  display: block;
+  margin-bottom: 0.5rem;
+}
+
+.disclaimer p {
+  margin: 0;
+  line-height: 1.6;
+}
+
+/* GovMap Section */
+.govmapSection {
+  margin-bottom: 3rem;
+  padding: 2rem;
+  background: white;
+  border-radius: 12px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+.govmapExplanation {
+  line-height: 1.8;
+  margin-bottom: 2rem;
+  color: var(--dark);
+  direction: rtl;
+  text-align: right;
+  font-size: 1rem;
+}
+
+.mapContainer {
+  direction: rtl;
+  text-align: right;
+}
+
+.mapTitle {
+  color: var(--primary);
+  margin: 1.5rem 0 1rem 0;
+  direction: rtl;
+}
+
+.govmapIframe {
+  width: 100%;
+  height: 400px;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+}
+
+@media (max-width: 768px) {
+  .govmapIframe {
+    height: 300px;
+  }
+}
+
+/* Instructions Section */
+.instructionsSection {
+  padding: 2rem;
+  background: #f9f9f9;
+  border-radius: 12px;
+  margin-bottom: 2rem;
+}
+
+.instructionsContent {
+  max-width: 800px;
+  direction: rtl;
+  text-align: right;
+}
+
+.instructionsContent h3 {
+  color: var(--primary);
+  margin-top: 1.5rem;
+  margin-bottom: 1rem;
+  direction: rtl;
+}
+
+.instructionsContent ol,
+.instructionsContent ul {
+  margin: 1rem 0;
+  padding-right: 2rem;
+  direction: rtl;
+}
+
+.instructionsContent li {
+  margin-bottom: 0.8rem;
+  line-height: 1.6;
+}
+
+.instructionsContent a {
+  color: var(--primary);
+  text-decoration: none;
+  font-weight: bold;
+}
+
+.instructionsContent a:hover {
+  text-decoration: underline;
+}
+
+.instructionsContent code {
+  background-color: #e0e0e0;
+  padding: 0.2rem 0.6rem;
+  border-radius: 4px;
+  font-family: "Courier New", monospace;
+  direction: ltr;
+}
+
+/* Footer Note */
+.footerNote {
+  text-align: center;
+  padding: 2rem;
+  background: linear-gradient(135deg, rgba(47, 58, 126, 0.1) 0%, rgba(107, 79, 44, 0.1) 100%);
+  border-radius: 12px;
+  margin-top: 3rem;
+  direction: rtl;
+}
+
+.footerNote p {
+  color: var(--dark);
+  font-size: 0.95rem;
+  margin: 0;
+  line-height: 1.6;
+}
+
+.footerNote a {
+  color: var(--primary);
+  text-decoration: none;
+  font-weight: bold;
+}
+
+.footerNote a:hover {
+  text-decoration: underline;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+  .mainContent {
+    padding: 1rem;
+  }
+
+  .heroSection {
+    padding: 1.5rem;
+    margin-bottom: 2rem;
+  }
+
+  .title {
+    font-size: 1.8rem;
+  }
+
+  .description {
+    font-size: 1rem;
+  }
+
+  .uploadSection,
+  .resultsSection,
+  .govmapSection {
+    padding: 1.5rem;
+    margin-bottom: 2rem;
+  }
+
+  .sectionTitle {
+    font-size: 1.5rem;
+  }
+
+  .resultsContainer {
+    margin-bottom: 1.5rem;
+  }
+
+  .mainPrediction {
+    padding: 1rem;
+  }
+
+  .mainClass {
+    font-size: 1.5rem;
+  }
+}

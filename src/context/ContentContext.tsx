@@ -58,6 +58,8 @@ interface ContentState {
   companyContactPhone: string;
   companyContactWebsite: string;
   companyContactText: string;
+  // Archaeology Demo
+  teachableMachineCode: string;
 }
 
 interface ContentContextType extends ContentState {
@@ -161,6 +163,7 @@ export const ContentProvider: React.FC<ContentProviderProps> = ({
     companyContactWebsite: "www.archeovision.ai",
     companyContactText:
       "מעוניינים לשתף פעולה? צרו איתנו קשר ונשמח להציג את המערכת שלנו!",
+    teachableMachineCode: "",
   });
 
   const [isLoading, setIsLoading] = useState(true);

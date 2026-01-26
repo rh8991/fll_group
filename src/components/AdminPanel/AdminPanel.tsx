@@ -2,6 +2,7 @@ import { useState, useEffect } from "react";
 import { useContent } from "@/context/ContentContext";
 import ImageUpload from "./ImageUpload";
 import TeamMemberManager from "./TeamMemberManager";
+import ModelUpload from "./ModelUpload";
 import styles from "./AdminPanel.module.css";
 
 interface AdminPanelProps {
@@ -10,7 +11,13 @@ interface AdminPanelProps {
   onLogout: () => void;
 }
 
-type TabType = "homepage" | "company" | "gallery" | "team" | "theme";
+type TabType =
+  | "homepage"
+  | "company"
+  | "gallery"
+  | "team"
+  | "theme"
+  | "archaeology";
 
 const AdminPanel: React.FC<AdminPanelProps> = ({
   isOpen,
@@ -300,6 +307,12 @@ const AdminPanel: React.FC<AdminPanelProps> = ({
           >
             🎨 עיצוב
           </button>
+          <button
+            className={`${styles.tabButton} ${activeTab === "archaeology" ? styles.active : ""}`}
+            onClick={() => setActiveTab("archaeology")}
+          >
+            🏛️ דמו ארכיאולוגיה
+          </button>
         </div>
 
         <div className={styles.content}>
@@ -453,7 +466,7 @@ const AdminPanel: React.FC<AdminPanelProps> = ({
                     onChange={(e) =>
                       setFormData({ ...formData, footerSeason: e.target.value })
                     }
-                    placeholder="🏛️ FIRST LEGO League - עונת UNEARTHED 2025"
+                    placeholder="🏛️ FIRST LEGO League - עונת UNEARTHED 2026"
                   />
                 </div>
 
@@ -1035,6 +1048,119 @@ const AdminPanel: React.FC<AdminPanelProps> = ({
                 </button>
               </div>
             </div>
+          )}
+
+          {/* ARCHAEOLOGY TAB */}
+          {activeTab === "archaeology" && (
+            <>
+              <div className={styles.section}>
+                <h3>🏛️ דמו חקר ארכיאולוגי חכם</h3>
+                <p>
+                  לתהליך המלא, בקר ב
+                  <a
+                    href="/fll_group/archaeology"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                  >
+                    דף הדמו
+                  </a>
+                </p>
+              </div>
+
+              <div className={styles.section}>
+                <ModelUpload />
+              </div>
+
+              <div className={styles.section}>
+                <h3>📚 הוראות טעינת המודל</h3>
+                <div className={styles.instructionBox}>
+                  <h4>כיצד להכין מודל Teachable Machine:</h4>
+                  <ol className={styles.instructionList}>
+                    <li>
+                      כנס ל-
+                      <a
+                        href="https://teachablemachine.withgoogle.com/"
+                        target="_blank"
+                        rel="noopener noreferrer"
+                      >
+                        Google Teachable Machine
+                      </a>
+                    </li>
+                    <li>בחר "Image Project" והתחל מיזם חדש</li>
+                    <li>
+                      בנה תקופות ארכיאולוגיות שונות כ-Classes (לדוגמה: תקופה
+                      ברונזה, תקופה ברזל, תקופה רומאית וכו')
+                    </li>
+                    <li>אמן את המודל על תמונות ממצאים ארכיאולוגיים</li>
+                    <li>
+                      כאשר סיימת, יצא את המודל בתבנית TensorFlow.js ("Export" →
+                      "Tensorflow.js")
+                    </li>
+                    <li>הורד את הקבצים (model.json + קבצי משקולות)</li>
+                    <li>צור תיקייה בשם "tm_model" תחת /public</li>
+                    <li>העלה את כל הקבצים ל-/public/tm_model/ בפרויקט שלך</li>
+                  </ol>
+                </div>
+
+                <div className={styles.instructionBox}>
+                  <h4>❓ שאלות נפוצות:</h4>
+                  <div className={styles.faqItem}>
+                    <strong>מהי Teachable Machine?</strong>
+                    <p>
+                      זו פלטפורמה בחינם של Google המאפשרת לך לאמן מודלי למידת
+                      מכונה ללא ידע בקידוד.
+                    </p>
+                  </div>
+                  <div className={styles.faqItem}>
+                    <strong>איכמ ניתן לשפר את הדיוק?</strong>
+                    <p>
+                      הסף את המודל עם יותר תמונות לכל תקופה. ודא שתמונות מייצגות
+                      זוויות וגוונים שונים של הממצאים.
+                    </p>
+                  </div>
+                  <div className={styles.faqItem}>
+                    <strong>האם זה עובד ללא אינטרנט?</strong>
+                    <p>
+                      לא, המודל צריך להעלות לאחסון אך ההסקה בדפדפן מתרחשת מקומית
+                      לאחר טעינה ראשונית.
+                    </p>
+                  </div>
+                </div>
+              </div>
+
+              <div className={styles.section}>
+                <h3>🔗 מידע נוסף</h3>
+                <ul className={styles.linkList}>
+                  <li>
+                    <a
+                      href="https://teachablemachine.withgoogle.com/"
+                      target="_blank"
+                      rel="noopener noreferrer"
+                    >
+                      Google Teachable Machine
+                    </a>
+                  </li>
+                  <li>
+                    <a
+                      href="https://www.tensorflow.org/js"
+                      target="_blank"
+                      rel="noopener noreferrer"
+                    >
+                      TensorFlow.js תיעוד
+                    </a>
+                  </li>
+                  <li>
+                    <a
+                      href="https://mapping.gov.il/Default.aspx"
+                      target="_blank"
+                      rel="noopener noreferrer"
+                    >
+                      GovMap - מאגר נתונים ארצי
+                    </a>
+                  </li>
+                </ul>
+              </div>
+            </>
           )}
         </div>
 

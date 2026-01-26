@@ -47,7 +47,7 @@ VITE_ADMIN_PASSWORD_HASH=your_admin_panel_password
 
 _Default password hash is for "admin123" - change immediately!_
 
-4. **Generate Password Hash** (PowerShell):
+1. **Generate Password Hash** (PowerShell):
 
    ```powershell
    $password = "YourNewPassword"
@@ -57,7 +57,7 @@ _Default password hash is for "admin123" - change immediately!_
    Write-Host $hashString
    ```
 
-5. **Start Development**:
+2. **Start Development**:
 
    ```bash
    npm run dev
@@ -72,7 +72,7 @@ Open <http://localhost:5173/fll_group/>
 **Features**:
 
 - **Large Panel**: 1200px wide for comfortable editing
-- **Tabbed Interface**: Separate tabs for Homepage, Company Page, Gallery, Team, and Theme
+- **Tabbed Interface**: Separate tabs for Homepage, Company Page, Gallery, Team, Theme, and Demo
 - **Save All Button**: Save all changes across all tabs at once
 - **Bullet Points**: Add bullet points easily with one click
 - **Comprehensive Theme Colors**:
@@ -85,6 +85,51 @@ Open <http://localhost:5173/fll_group/>
 - Manage team members (add/edit/delete)
 - Upload images (max 2MB, JPG/PNG/WebP)
 - Update header/footer info
+- **Demo Tab**: Access Smart Archaeology AI demo setup instructions
+
+## Smart Archaeology AI Demo
+
+**Access**: `/archaeology` route or via "דמו ארכיאולוגיה" tab in Admin Panel
+
+**Features**:
+
+- 🏛️ **Image-based Classification**: Uses TensorFlow.js + Google Teachable Machine
+- 📷 **Upload Archaeological Artifacts**: Users upload artifact images
+- 🤖 **AI Inference**: Browser-based prediction using trained model
+- 📊 **Confidence Scores**: Display probability for each historical period
+- 🗺️ **Embedded GovMap**: Integrated national data repository map
+- 📱 **Fully Responsive**: Works on desktop, tablet, and mobile
+- 🇮🇱 **Hebrew UI**: All user-facing text in Hebrew
+
+### Setting Up the Model
+
+1. **Create Model** (Free):
+   - Go to [Google Teachable Machine](https://teachablemachine.withgoogle.com/)
+   - Create "Image Project"
+   - Add classes for historical periods (Bronze Age, Iron Age, Roman, etc.)
+   - Train with artifact images (minimum 20-30 per period)
+
+2. **Export Model**:
+   - Click "Export" → Select "TensorFlow.js"
+   - Download all files
+
+3. **Add to Project**:
+   - Create folder: `/public/tm_model/`
+   - Place `model.json` and weight files (\*.bin files) inside
+   - Restart dev server
+
+4. **Access Demo**:
+   - Navigate to `/archaeology` route
+   - Model automatically loads on page open
+   - Upload artifact images and analyze!
+
+### How It Works
+
+- **Model Loading**: TensorFlow.js loads model.json on page mount
+- **Image Processing**: Uploaded image resized to 224x224 and normalized
+- **Inference**: Forward pass through neural network in browser
+- **Results Display**: Top predictions with confidence percentages
+- **GovMap Integration**: Embedded iframe for data repository access
 
 ## Deployment
 
@@ -121,9 +166,9 @@ npm run deploy   # Deploy to GitHub Pages
 ## Team
 
 **The Shimis** - FLL Team Technoda Hadera  
-Season: UNEARTHED 2025  
+Season: UNEARTHED 2026  
 Website: <https://rh8991.github.io/fll_group/>
 
 ---
 
-Made with ❤️ by The Shimis Team | FLL UNEARTHED 2025 🏛️
+Made with ❤️ by The Shimis Team | FLL UNEARTHED 2026 🏛️

@@ -4,7 +4,7 @@ import { useContent } from "@/context/ContentContext";
 import styles from "./Header.module.css";
 
 interface HeaderProps {
-  theme?: "default" | "company";
+  theme?: "default" | "company" | "demo";
 }
 
 const Header: React.FC<HeaderProps> = ({ theme = "default" }) => {
@@ -26,6 +26,7 @@ const Header: React.FC<HeaderProps> = ({ theme = "default" }) => {
   }, []);
 
   const isCompany = theme === "company";
+  const isDemo = theme === "demo";
 
   return (
     <header
@@ -65,7 +66,13 @@ const Header: React.FC<HeaderProps> = ({ theme = "default" }) => {
         </button>
 
         <ul className={`${styles.navLinks} ${isMenuOpen ? styles.active : ""}`}>
-          {isCompany ? (
+          {isDemo ? (
+            <li>
+              <Link to="/company" onClick={() => setIsMenuOpen(false)}>
+                ← חזרה לאתר החברה
+              </Link>
+            </li>
+          ) : isCompany ? (
             <>
               <li>
                 <a href="#about" onClick={() => setIsMenuOpen(false)}>

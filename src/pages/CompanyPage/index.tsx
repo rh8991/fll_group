@@ -73,11 +73,17 @@ const CompanyPage = () => {
             <h2 className={styles.sectionTitle}>הדגמת המערכת</h2>
             <div className={styles.demoContainer}>
               <div className={styles.demoPlaceholder}>
-                <span className={styles.demoIcon}>🎥</span>
-                <p>כאן תוצג הדגמה של המערכת בפעולה</p>
+                <span className={styles.demoIcon}>�️</span>
+                <h3 className={styles.demoTitle}>חקר ארכיאולוגי חכם</h3>
+                <p>
+                  מערכת AI המסווגת ממצאים ארכיאולוגיים בהתבסס על מראה ויזואלי
+                </p>
                 <p className={styles.demoSubtext}>
                   צילום → העלאה → ניתוח AI → תוצאות
                 </p>
+                <a href="/fll_group/archaeology" className={styles.demoButton}>
+                  🚀 נסו חינם
+                </a>
               </div>
             </div>
           </div>
