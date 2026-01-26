@@ -104,6 +104,17 @@ const SmartArchaeologyPage: React.FC = () => {
     }
   }, [teachableMachineCode]);
 
+  // Attach stream to video element when available
+  useEffect(() => {
+    if (stream && videoRef.current && cameraActive) {
+      videoRef.current.srcObject = stream;
+      videoRef.current.play().catch((err) => {
+        console.error("Video play error:", err);
+        setError(`שגיאה בהפעלת וידאו: ${err.message}`);
+      });
+    }
+  }, [stream, cameraActive]);
+
   // Handle camera toggle
   const handleCameraToggle = async () => {
     if (cameraActive) {
@@ -139,29 +150,56 @@ const SmartArchaeologyPage: React.FC = () => {
         try {
           // Prefer back camera when available
           mediaStream = await tryConstraints({
-            video: { facingMode: { ideal: "environment" } },
+            video: {
+              facingMode: { ideal: "environment" },
+              width: { ideal: 1280 },
+            },
             audio: false,
           });
         } catch (e) {
-          // Fallback to front camera
-          mediaStream = await tryConstraints({
-            video: { facingMode: { ideal: "user" } },
-            audio: false,
-          });
+          console.warn("Back camera failed, trying front:", e);
+          try {
+            // Fallback to front camera
+            mediaStream = await tryConstraints({
+              video: { facingMode: { ideal: "user" }, width: { ideal: 1280 } },
+              audio: false,
+            });
+          } catch (e2) {
+            console.warn("Front camera failed, trying default:", e2);
+            // Final fallback: any video
+            mediaStream = await tryConstraints({
+              video: true,
+              audio: false,
+            });
+          }
+        }
+
+        if (!mediaStream) {
+          throw new Error("לא ניתן לגשת למצלמה");
         }
 
         setStream(mediaStream);
         setCameraActive(true);
-
-        if (videoRef.current) {
-          videoRef.current.srcObject = mediaStream;
-          // Some browsers (Safari/iOS) need an explicit play()
-          try {
-            await videoRef.current.play();
-          } catch {}
-        }
       } catch (err: any) {
-        setError(`שגיאה בהפעלת מצלמה: ${err.message}`);
+        let errorMessage = `שגיאה בהפעלת מצלמה: ${err.message}`;
+        if (
+          err.name === "NotAllowedError" ||
+          err.name === "PermissionDeniedError"
+        ) {
+          errorMessage =
+            "❌ הגישה למצלמה נדחתה. אנא אפשר גישה למצלמה בהגדרות הדפדפן";
+        } else if (
+          err.name === "NotFoundError" ||
+          err.name === "DevicesNotFoundError"
+        ) {
+          errorMessage = "❌ לא נמצאה מצלמה במכשיר זה";
+        } else if (
+          err.name === "NotReadableError" ||
+          err.name === "TrackStartError"
+        ) {
+          errorMessage = "❌ המצלמה בשימוש על ידי אפליקציה אחרת";
+        }
+        setError(errorMessage);
         setCameraActive(false);
       }
     }
