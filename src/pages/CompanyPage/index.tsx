@@ -1,5 +1,6 @@
 import Header from "@/components/Header/Header";
 import Footer from "@/components/Footer/Footer";
+import { Link } from "react-router-dom";
 import { useContent } from "@/context/ContentContext";
 import styles from "./CompanyPage.module.css";
 
@@ -81,9 +82,9 @@ const CompanyPage = () => {
                 <p className={styles.demoSubtext}>
                   צילום → העלאה → ניתוח AI → תוצאות
                 </p>
-                <a href="/fll_group/archaeology" className={styles.demoButton}>
+                <Link to="/archaeology" className={styles.demoButton}>
                   🚀 נסו חינם
-                </a>
+                </Link>
               </div>
             </div>
           </div>
