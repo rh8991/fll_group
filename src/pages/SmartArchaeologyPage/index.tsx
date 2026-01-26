@@ -120,14 +120,45 @@ const SmartArchaeologyPage: React.FC = () => {
       // Start camera
       try {
         setError("");
-        const mediaStream = await navigator.mediaDevices.getUserMedia({
-          video: { facingMode: "environment", width: { ideal: 640 } },
-        });
+        // Validate secure context (required except localhost)
+        const isSecure =
+          window.location.protocol === "https:" ||
+          window.location.hostname === "localhost" ||
+          window.location.hostname === "127.0.0.1";
+        if (!isSecure) {
+          throw new Error(
+            "הדפדפן דורש חיבור מאובטח (HTTPS) או localhost להפעלת מצלמה",
+          );
+        }
+
+        const tryConstraints = async (constraints: MediaStreamConstraints) => {
+          return navigator.mediaDevices.getUserMedia(constraints);
+        };
+
+        let mediaStream: MediaStream | null = null;
+        try {
+          // Prefer back camera when available
+          mediaStream = await tryConstraints({
+            video: { facingMode: { ideal: "environment" } },
+            audio: false,
+          });
+        } catch (e) {
+          // Fallback to front camera
+          mediaStream = await tryConstraints({
+            video: { facingMode: { ideal: "user" } },
+            audio: false,
+          });
+        }
+
         setStream(mediaStream);
         setCameraActive(true);
 
         if (videoRef.current) {
           videoRef.current.srcObject = mediaStream;
+          // Some browsers (Safari/iOS) need an explicit play()
+          try {
+            await videoRef.current.play();
+          } catch {}
         }
       } catch (err: any) {
         setError(`שגיאה בהפעלת מצלמה: ${err.message}`);
@@ -351,6 +382,7 @@ const SmartArchaeologyPage: React.FC = () => {
                         <video
                           ref={videoRef}
                           autoPlay
+                          muted
                           playsInline
                           className={styles.videoElement}
                         />
