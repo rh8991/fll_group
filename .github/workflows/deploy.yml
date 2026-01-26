@@ -44,9 +44,6 @@ jobs:
           VITE_ADMIN_PASSWORD_HASH: ${{ secrets.VITE_ADMIN_PASSWORD_HASH }}
         run: npm run build
 
-      - name: Deploy with gh-pages
-        run: npx gh-pages -d dist
-
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v3
         with:
