@@ -2,36 +2,6 @@
 import { useContent } from "@/context/ContentContext";
 import styles from "./Team.module.css";
 
-const emojiOptions = [
-  "😀",
-  "😎",
-  "🤖",
-  "👩‍💻",
-  "🧑‍🔬",
-  "🦾",
-  "🦸‍♂️",
-  "🦸‍♀️",
-  "🧑‍🚀",
-  "🧑‍🎤",
-  "🧑‍🏫",
-  "🧑‍🔧",
-  "🧑‍🌾",
-  "🧑‍🍳",
-  "🧑‍🎨",
-  "🧑‍⚕️",
-  "🧑‍✈️",
-  "🧑‍🚒",
-  "🧑‍🎓",
-  "🧑‍🏭",
-  "🧑‍💼",
-  "🦸‍♂️",
-  "🦸‍♀️",
-  "🦾",
-  "🤖",
-  "😎",
-  "😀",
-];
-
 const Team = () => {
   const { teamMembers } = useContent();
 
@@ -42,9 +12,7 @@ const Team = () => {
         <div className={styles.grid}>
           {teamMembers.map((member, index) => (
             <div key={index} className={styles.card}>
-              <div className={styles.avatar}>
-                {emojiOptions[index % emojiOptions.length]}
-              </div>
+              <div className={styles.avatar}>{member.name?.[0] || "😀"}</div>
               <div className={styles.name}>
                 {member.name || `חבר ${index + 1}`}
               </div>
