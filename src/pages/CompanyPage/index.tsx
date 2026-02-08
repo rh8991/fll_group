@@ -74,7 +74,7 @@ const CompanyPage = () => {
             <h2 className={styles.sectionTitle}>הדגמת המערכת</h2>
             <div className={styles.demoContainer}>
               <div className={styles.demoPlaceholder}>
-                <span className={styles.demoIcon}>�️</span>
+                <span className={styles.demoIcon}>🧠</span>
                 <h3 className={styles.demoTitle}>חקר ארכיאולוגי חכם</h3>
                 <p>
                   מערכת AI המסווגת ממצאים ארכיאולוגיים בהתבסס על מראה ויזואלי

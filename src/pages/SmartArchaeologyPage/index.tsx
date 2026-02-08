@@ -254,6 +254,12 @@ const SmartArchaeologyPage: React.FC = () => {
       setUploadedImage(imageData);
       setPredictions([]);
       setError("");
+      // Freeze camera (stop stream)
+      if (stream) {
+        stream.getTracks().forEach((track) => track.stop());
+        setCameraActive(false);
+        setStream(null);
+      }
     }
   };
 
@@ -393,7 +399,32 @@ const SmartArchaeologyPage: React.FC = () => {
                   </p>
 
                   <div className={styles.cameraContainer}>
-                    {!cameraActive ? (
+                    {cameraActive ? (
+                      <div className={styles.videoContainer}>
+                        <video
+                          ref={videoRef}
+                          autoPlay
+                          muted
+                          playsInline
+                          className={styles.videoElement}
+                        />
+                        <canvas ref={canvasRef} style={{ display: "none" }} />
+                        <div className={styles.cameraControls}>
+                          <button
+                            className={styles.captureButton}
+                            onClick={handleCapturePhoto}
+                          >
+                            📸 צלם
+                          </button>
+                          <button
+                            className={styles.closeCameraButton}
+                            onClick={handleCameraToggle}
+                          >
+                            ✕ סגור
+                          </button>
+                        </div>
+                      </div>
+                    ) : (
                       <>
                         {!uploadedImage ? (
                           <div className={styles.uploadBox}>
@@ -430,35 +461,19 @@ const SmartArchaeologyPage: React.FC = () => {
                               >
                                 📹 צלם מחדש
                               </button>
+                              <button
+                                className={styles.analyzeButton}
+                                onClick={handleAnalyze}
+                                disabled={
+                                  (!modelLoaded && !demoMode) || loading
+                                }
+                              >
+                                {loading ? "מעבד..." : "נתח תמונה"}
+                              </button>
                             </div>
                           </div>
                         )}
                       </>
-                    ) : (
-                      <div className={styles.videoContainer}>
-                        <video
-                          ref={videoRef}
-                          autoPlay
-                          muted
-                          playsInline
-                          className={styles.videoElement}
-                        />
-                        <canvas ref={canvasRef} style={{ display: "none" }} />
-                        <div className={styles.cameraControls}>
-                          <button
-                            className={styles.captureButton}
-                            onClick={handleCapturePhoto}
-                          >
-                            📸 צלם תמונה
-                          </button>
-                          <button
-                            className={styles.closeCameraButton}
-                            onClick={handleCameraToggle}
-                          >
-                            ✕ סגור
-                          </button>
-                        </div>
-                      </div>
                     )}
                   </div>
 

@@ -2,28 +2,40 @@ import { useState, useEffect } from "react";
 import { useContent } from "@/context/ContentContext";
 import styles from "./TeamMemberManager.module.css";
 
+interface TeamMember {
+  name: string;
+  role: string;
+  emoji?: string;
+}
+
 interface TeamMemberManagerProps {
   onClose: () => void;
 }
 
 const TeamMemberManager: React.FC<TeamMemberManagerProps> = ({ onClose }) => {
   const { teamMembers, updateContent } = useContent();
-  const [members, setMembers] = useState<{ name: string; role: string }[]>([]);
+  const [members, setMembers] = useState<TeamMember[]>([]);
   const [editingIndex, setEditingIndex] = useState<number | null>(null);
   const [editName, setEditName] = useState("");
   const [editRole, setEditRole] = useState("");
+  const [editEmoji, setEditEmoji] = useState<string>("😀");
 
   useEffect(() => {
-    setMembers(teamMembers || []);
+    setMembers(
+      teamMembers && Array.isArray(teamMembers)
+        ? teamMembers.map((m: any) => ({ ...m, emoji: m.emoji || "😀" }))
+        : [],
+    );
   }, [teamMembers]);
 
   const handleAddMember = () => {
-    const newMember = { name: "", role: "" };
+    const newMember: TeamMember = { name: "", role: "", emoji: "😀" };
     const updatedMembers = [...members, newMember];
     setMembers(updatedMembers);
     setEditingIndex(updatedMembers.length - 1);
     setEditName("");
     setEditRole("");
+    setEditEmoji("😀");
   };
 
   const handleRemoveMember = (index: number) => {
@@ -42,16 +54,22 @@ const TeamMemberManager: React.FC<TeamMemberManagerProps> = ({ onClose }) => {
     setEditingIndex(index);
     setEditName(members[index].name);
     setEditRole(members[index].role);
+    setEditEmoji(members[index].emoji || "😀");
   };
 
   const handleSaveEdit = (index: number) => {
     const updatedMembers = [...members];
-    updatedMembers[index] = { name: editName, role: editRole };
+    updatedMembers[index] = {
+      name: editName,
+      role: editRole,
+      emoji: editEmoji,
+    };
     setMembers(updatedMembers);
     updateContent("teamMembers", updatedMembers);
     setEditingIndex(null);
     setEditName("");
     setEditRole("");
+    setEditEmoji("😀");
   };
 
   const handleCancelEdit = () => {
@@ -60,19 +78,30 @@ const TeamMemberManager: React.FC<TeamMemberManagerProps> = ({ onClose }) => {
     setEditRole("");
   };
 
-  const avatars = [
-    "👨‍💻",
-    "👩‍🔧",
-    "👨‍💼",
-    "👩‍🎨",
-    "👨‍🔬",
+  const emojiOptions = [
+    "👩🏻‍💻",
+    "👨🏻‍🔧",
+    "🧑🏻‍💼",
+    "🧑🏻‍🏭",
     "👩‍💻",
-    "👨‍🏭",
-    "👩‍🚀",
-    "👨‍🎓",
-    "👩‍🔧",
-    "👨‍🎤",
-    "👩‍🏫",
+    "🧑‍🔬",
+    "👷🏻",
+    "🦸‍♂️",
+    "🦸‍♀️",
+    "🧑‍🚀",
+    "🧑‍🎤",
+    "🧑‍🏫",
+    "🧑‍🔧",
+    "🧑‍🌾",
+    "🧑‍🍳",
+    "🧑‍🎨",
+    "🧑‍⚕️",
+    "🧑‍✈️",
+    "🧑‍🚒",
+    "🧑‍💼",
+    "🦸‍♂️",
+    "🦸‍♀️",
+    "🦾",
   ];
 
   return (
@@ -100,9 +129,7 @@ const TeamMemberManager: React.FC<TeamMemberManagerProps> = ({ onClose }) => {
           <div className={styles.membersList}>
             {members.map((member, index) => (
               <div key={index} className={styles.memberCard}>
-                <div className={styles.avatar}>
-                  {avatars[index % avatars.length]}
-                </div>
+                <div className={styles.avatar}>{member.emoji || "😀"}</div>
 
                 {editingIndex === index ? (
                   <div className={styles.editForm}>
@@ -121,6 +148,38 @@ const TeamMemberManager: React.FC<TeamMemberManagerProps> = ({ onClose }) => {
                       placeholder="תפקיד"
                       className={styles.input}
                     />
+                    <div style={{ margin: "0.5rem 0" }}>
+                      <span style={{ fontSize: "1rem" }}>בחרו אמוג'י:</span>
+                      <div
+                        style={{
+                          display: "flex",
+                          flexWrap: "wrap",
+                          gap: "0.25rem",
+                          marginTop: "0.25rem",
+                        }}
+                      >
+                        {emojiOptions.map((emoji) => (
+                          <button
+                            key={emoji}
+                            style={{
+                              fontSize: "1.5rem",
+                              background:
+                                editEmoji === emoji ? "#e0e0e0" : "transparent",
+                              border:
+                                editEmoji === emoji
+                                  ? "2px solid #007bff"
+                                  : "1px solid #ccc",
+                              borderRadius: "50%",
+                              cursor: "pointer",
+                              padding: "0.15rem 0.3rem",
+                            }}
+                            onClick={() => setEditEmoji(emoji)}
+                          >
+                            {emoji}
+                          </button>
+                        ))}
+                      </div>
+                    </div>
                     <div className={styles.editActions}>
                       <button
                         className={styles.saveBtn}

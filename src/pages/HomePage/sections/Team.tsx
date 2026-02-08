@@ -1,10 +1,39 @@
-import { useContent } from '@/context/ContentContext'
-import styles from './Team.module.css'
+import React from "react";
+import { useContent } from "@/context/ContentContext";
+import styles from "./Team.module.css";
 
-const avatars = ['👨‍💻', '👩‍🔧', '👨‍💼', '👩‍🎨', '👨‍🔬', '👩‍💻', '👨‍🏭', '👩‍🚀', '👨‍🎓', '👩‍🔧']
+const emojiOptions = [
+  "😀",
+  "😎",
+  "🤖",
+  "👩‍💻",
+  "🧑‍🔬",
+  "🦾",
+  "🦸‍♂️",
+  "🦸‍♀️",
+  "🧑‍🚀",
+  "🧑‍🎤",
+  "🧑‍🏫",
+  "🧑‍🔧",
+  "🧑‍🌾",
+  "🧑‍🍳",
+  "🧑‍🎨",
+  "🧑‍⚕️",
+  "🧑‍✈️",
+  "🧑‍🚒",
+  "🧑‍🎓",
+  "🧑‍🏭",
+  "🧑‍💼",
+  "🦸‍♂️",
+  "🦸‍♀️",
+  "🦾",
+  "🤖",
+  "😎",
+  "😀",
+];
 
 const Team = () => {
-  const { teamMembers } = useContent()
+  const { teamMembers } = useContent();
 
   return (
     <section className={styles.section} id="team">
@@ -13,15 +42,20 @@ const Team = () => {
         <div className={styles.grid}>
           {teamMembers.map((member, index) => (
             <div key={index} className={styles.card}>
-              <div className={styles.avatar}>{avatars[index]}</div>
-              <div className={styles.name}>{member.name || `חבר ${index + 1}`}</div>
-              <div className={styles.role}>{member.role || 'תפקיד'}</div>
+              <div className={styles.avatar}>
+                {emojiOptions[index % emojiOptions.length]}
+              </div>
+              <div className={styles.name}>
+                {member.name || `חבר ${index + 1}`}
+              </div>
+              <div className={styles.role}>{member.role || "תפקיד"}</div>
+              {/* Emoji picker removed from public team section. Only shown in manager edit page. */}
             </div>
           ))}
         </div>
       </div>
     </section>
-  )
-}
+  );
+};
 
-export default Team
+export default Team;
