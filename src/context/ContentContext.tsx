@@ -11,6 +11,7 @@ import { doc, getDoc, setDoc } from "firebase/firestore";
 interface TeamMember {
   name: string;
   role: string;
+  emoji?: string;
 }
 
 interface ThemeColors {
@@ -34,6 +35,18 @@ interface GalleryImage {
   title: string;
 }
 
+interface CardItem {
+  icon: string;
+  title: string;
+  description: string;
+}
+
+interface CardItem {
+  icon: string;
+  title: string;
+  description: string;
+}
+
 interface ContentState {
   aboutText: string;
   problemText: string;
@@ -44,10 +57,22 @@ interface ContentState {
   themeColors: ThemeColors;
   headerTitle: string;
   headerCompanyTitle: string;
+  heroSubtitle: string;
   footerLocation: string;
   footerSeason: string;
   footerCopyright: string;
   galleryImages: GalleryImage[];
+  // Robot Design Section
+  robotDesignTitle: string;
+  robotDesignSubtitle: string;
+  robotDesignCards: CardItem[];
+  // Game Strategy Section
+  gameStrategyTitle: string;
+  gameStrategySubtitle: string;
+  gameStrategyCards: CardItem[];
+  // Core Values Section
+  coreValuesTitle: string;
+  coreValues: CardItem[];
   // Company Page Content
   companyHeroTitle: string;
   companyHeroTagline: string;
@@ -65,7 +90,7 @@ interface ContentState {
 interface ContentContextType extends ContentState {
   updateContent: (
     key: keyof ContentState,
-    value: string | TeamMember[] | ThemeColors | GalleryImage[],
+    value: string | TeamMember[] | ThemeColors | GalleryImage[] | CardItem[],
   ) => void;
 }
 
@@ -92,7 +117,7 @@ export const ContentProvider: React.FC<ContentProviderProps> = ({
     solutionText: "",
     implementationText: "",
     companyLink: "",
-    teamMembers: Array(10).fill({ name: "", role: "" }),
+    teamMembers: Array(10).fill({ name: "", role: "", emoji: "" }),
     themeColors: {
       primary: "#2f3a7e",
       secondary: "#6b4f2c",
@@ -110,11 +135,101 @@ export const ContentProvider: React.FC<ContentProviderProps> = ({
     },
     headerTitle: "The Shimis",
     headerCompanyTitle: "ArcheoVision AI",
+    heroSubtitle: "חושפים את העבר, בונים את העתיד - ארכיאולוגיה בעידן הדיגיטלי",
     footerLocation: "📍 הטכנודע, חדרה",
     footerSeason: "🏛️ FIRST LEGO League - עונת UNEARTHED 2026",
     footerCopyright:
       "© 2024-2025 The Shimis | כל הזכויות שמורות\nכבוד הדדי • שיתוף פעולה • חדשנות • התמדה",
     galleryImages: [],
+    // Robot Design Section
+    robotDesignTitle: "תכנון הרובוט שלנו",
+    robotDesignSubtitle: "פיתחנו רובוט מודולרי עם זרועות מתחלפות ותכנות מתקדם",
+    robotDesignCards: [
+      {
+        icon: "🏗️",
+        title: "מבנה בסיס חזק",
+        description: "בסיס יציב וחזק לחיבור זרועות וציודים",
+      },
+      {
+        icon: "🦾",
+        title: "זרועות מתחלפות",
+        description: "עיצוב מודולרי מאפשר החלפת כלים במהלך המשחק",
+      },
+      {
+        icon: "⚙️",
+        title: "מערכת הנעה",
+        description: "מנועים חזקים לתנועה מדויקת ומהירה",
+      },
+      {
+        icon: "📡",
+        title: "חיישנים מתקדמים",
+        description: "חיישני צבע וקרבה לניווט מדויק",
+      },
+      {
+        icon: "🧠",
+        title: "בקרה ממוחשבת",
+        description: "לוגיקה תכנותית עם שליטה על כל קטע",
+      },
+      {
+        icon: "🔧",
+        title: "קל לתחזוקה",
+        description: "חלקי חילוף זמינים וקל להרכבה/פירוק",
+      },
+    ],
+    // Game Strategy Section
+    gameStrategyTitle: "אסטרטגיית המשחק שלנו",
+    gameStrategySubtitle:
+      "בחרנו להתמקד במשימות עם ניקוד גבוה ודיוק מקסימלי, תוך שמירה על אסימוני הדיוק",
+    gameStrategyCards: [
+      {
+        icon: "🎯",
+        title: "משימות עדיפות ראשונה",
+        description: "התמקדות בנקודות גבוהות באמצעות ניתוח וקביעת עדיפויות",
+      },
+      {
+        icon: "🔄",
+        title: "סדר ביצוע אופטימלי",
+        description: "תכנון דקיק של סדר ביצוע המשימות להנצלת זמן מקסימלית",
+      },
+      {
+        icon: "🛡️",
+        title: "ניהול סיכונים",
+        description: "איזון בין נכסים בטוחים ומשימות בעלות סיכון גבוה",
+      },
+      {
+        icon: "⚡",
+        title: "האצה בשלב סיום",
+        description:
+          "מניפולציות מברקות בשניות האחרונות כדי להשיג נקודות נוספות",
+      },
+    ],
+    // Core Values Section
+    coreValuesTitle: "ערכי הליבה שלנו",
+    coreValues: [
+      {
+        icon: "🤝",
+        title: "כבוד הדדי",
+        description:
+          "אנחנו מכבדים את כל חברי הצוות ואת הקבוצות המתחרות, ומעריכים את התרומה הייחודית של כל אחד",
+      },
+      {
+        icon: "👥",
+        title: "שיתוף פעולה",
+        description:
+          "עובדים יחד כצוות, משלבים כישורים ורעיונות להשגת מטרות משותפות",
+      },
+      {
+        icon: "💡",
+        title: "חדשנות",
+        description:
+          "חושבים מחוץ לקופסה, מחפשים פתרונות יצירתיים לבעיות מורכבות",
+      },
+      {
+        icon: "💪",
+        title: "התמדה",
+        description: "לא מוותרים מול אתגרים, לומדים מטעויות וממשיכים להתקדם",
+      },
+    ],
     // Company Page Content
     companyHeroTitle: "ArcheoVision AI",
     companyHeroTagline: "בינה מלאכותית לארכיאולוגיה נגישה",
@@ -221,9 +336,9 @@ export const ContentProvider: React.FC<ContentProviderProps> = ({
       const member = localStorage.getItem(`member${i}`);
       if (member) {
         const [name, role] = member.split(":");
-        teamMembers.push({ name: name || "", role: role || "" });
+        teamMembers.push({ name: name || "", role: role || "", emoji: "" });
       } else {
-        teamMembers.push({ name: "", role: "" });
+        teamMembers.push({ name: "", role: "", emoji: "" });
       }
     }
     if (teamMembers.some((m) => m.name || m.role)) {
@@ -239,6 +354,26 @@ export const ContentProvider: React.FC<ContentProviderProps> = ({
       }
     }
 
+    // Load card arrays from localStorage
+    const cardArrayKeys: (keyof ContentState)[] = [
+      "robotDesignCards",
+      "gameStrategyCards",
+      "coreValues",
+      "companyFeatures",
+      "galleryImages",
+    ];
+
+    cardArrayKeys.forEach((key) => {
+      const savedArray = localStorage.getItem(key);
+      if (savedArray) {
+        try {
+          loadedContent[key] = JSON.parse(savedArray);
+        } catch (e) {
+          console.error(`Failed to load ${key}:`, e);
+        }
+      }
+    });
+
     if (Object.keys(loadedContent).length > 0) {
       setContent((prev) => ({ ...prev, ...loadedContent }));
     }
@@ -246,7 +381,7 @@ export const ContentProvider: React.FC<ContentProviderProps> = ({
 
   const updateContent = async (
     key: keyof ContentState,
-    value: string | TeamMember[] | ThemeColors | GalleryImage[],
+    value: string | TeamMember[] | ThemeColors | GalleryImage[] | CardItem[],
   ) => {
     // Update local state immediately for responsive UI
     setContent((prev) => ({ ...prev, [key]: value }));
@@ -258,15 +393,36 @@ export const ContentProvider: React.FC<ContentProviderProps> = ({
       await setDoc(docRef, updatedContent);
 
       // Also save to localStorage as backup
-      if (key === "teamMembers" && Array.isArray(value)) {
-        (value as TeamMember[]).forEach((member, index) => {
-          localStorage.setItem(
-            `member${index + 1}`,
-            `${member.name}:${member.role}`,
-          );
-        });
-      } else if (key === "galleryImages" && Array.isArray(value)) {
-        localStorage.setItem("galleryImages", JSON.stringify(value));
+      if (Array.isArray(value)) {
+        // Handle all array types: TeamMember[], CardItem[], GalleryImage[]
+        const arrayKey =
+          key === "teamMembers"
+            ? "teamMembers"
+            : key === "galleryImages"
+              ? "galleryImages"
+              : key === "robotDesignCards"
+                ? "robotDesignCards"
+                : key === "gameStrategyCards"
+                  ? "gameStrategyCards"
+                  : key === "coreValues"
+                    ? "coreValues"
+                    : key === "companyFeatures"
+                      ? "companyFeatures"
+                      : null;
+
+        if (arrayKey) {
+          localStorage.setItem(arrayKey, JSON.stringify(value));
+        }
+
+        // Special handling for teamMembers (legacy backup)
+        if (key === "teamMembers") {
+          (value as TeamMember[]).forEach((member, index) => {
+            localStorage.setItem(
+              `member${index + 1}`,
+              `${member.name}:${member.role}`,
+            );
+          });
+        }
       } else if (
         key === "themeColors" &&
         typeof value === "object" &&

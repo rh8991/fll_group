@@ -5,10 +5,62 @@ import TeamMemberManager from "./TeamMemberManager";
 import ModelUpload from "./ModelUpload";
 import styles from "./AdminPanel.module.css";
 
+interface CardItem {
+  icon: string;
+  title: string;
+  description: string;
+}
+
 interface AdminPanelProps {
   isOpen: boolean;
   onClose: () => void;
   onLogout: () => void;
+}
+
+interface AdminFormData {
+  aboutText: string;
+  problemText: string;
+  solutionText: string;
+  implementationText: string;
+  companyLink: string;
+  headerTitle: string;
+  heroSubtitle: string;
+  footerLocation: string;
+  footerSeason: string;
+  footerCopyright: string;
+  robotDesignTitle: string;
+  robotDesignSubtitle: string;
+  robotDesignCards: CardItem[];
+  gameStrategyTitle: string;
+  gameStrategySubtitle: string;
+  gameStrategyCards: CardItem[];
+  coreValuesTitle: string;
+  coreValues: CardItem[];
+  companyHeroTitle: string;
+  companyHeroTagline: string;
+  companyHeroSubtitle: string;
+  companyAboutText: string;
+  companyFeatures: CardItem[];
+  companyContactEmail: string;
+  companyContactPhone: string;
+  companyContactWebsite: string;
+  companyContactText: string;
+  headerCompanyTitle: string;
+  themeColors: {
+    primary: string;
+    secondary: string;
+    accent: string;
+    dark: string;
+    light: string;
+    text: string;
+    headerBg: string;
+    headerText: string;
+    footerBg: string;
+    footerText: string;
+    companyPrimary: string;
+    companySecondary: string;
+    companyAccent: string;
+  };
 }
 
 type TabType =
@@ -30,7 +82,7 @@ const AdminPanel: React.FC<AdminPanelProps> = ({
   const [showImageUpload, setShowImageUpload] = useState(false);
   const [showTeamManager, setShowTeamManager] = useState(false);
 
-  const [formData, setFormData] = useState({
+  const [formData, setFormData] = useState<AdminFormData>({
     // Homepage content
     aboutText: "",
     problemText: "",
@@ -38,15 +90,27 @@ const AdminPanel: React.FC<AdminPanelProps> = ({
     implementationText: "",
     companyLink: "",
     headerTitle: "",
+    heroSubtitle: "",
     footerLocation: "",
     footerSeason: "",
     footerCopyright: "",
+    // Robot Design Section
+    robotDesignTitle: "",
+    robotDesignSubtitle: "",
+    robotDesignCards: [],
+    // Game Strategy Section
+    gameStrategyTitle: "",
+    gameStrategySubtitle: "",
+    gameStrategyCards: [],
+    // Core Values Section
+    coreValuesTitle: "",
+    coreValues: [],
     // Company page content
     companyHeroTitle: "",
     companyHeroTagline: "",
     companyHeroSubtitle: "",
     companyAboutText: "",
-    companyFeatures: Array(6).fill({ icon: "", title: "", description: "" }),
+    companyFeatures: [],
     companyContactEmail: "",
     companyContactPhone: "",
     companyContactWebsite: "",
@@ -79,16 +143,23 @@ const AdminPanel: React.FC<AdminPanelProps> = ({
         implementationText: context.implementationText || "",
         companyLink: context.companyLink || "",
         headerTitle: context.headerTitle || "",
+        heroSubtitle: context.heroSubtitle || "",
         footerLocation: context.footerLocation || "",
         footerSeason: context.footerSeason || "",
         footerCopyright: context.footerCopyright || "",
+        robotDesignTitle: context.robotDesignTitle || "",
+        robotDesignSubtitle: context.robotDesignSubtitle || "",
+        robotDesignCards: context.robotDesignCards || [],
+        gameStrategyTitle: context.gameStrategyTitle || "",
+        gameStrategySubtitle: context.gameStrategySubtitle || "",
+        gameStrategyCards: context.gameStrategyCards || [],
+        coreValuesTitle: context.coreValuesTitle || "",
+        coreValues: context.coreValues || [],
         companyHeroTitle: context.companyHeroTitle || "",
         companyHeroTagline: context.companyHeroTagline || "",
         companyHeroSubtitle: context.companyHeroSubtitle || "",
         companyAboutText: context.companyAboutText || "",
-        companyFeatures:
-          context.companyFeatures ||
-          Array(6).fill({ icon: "", title: "", description: "" }),
+        companyFeatures: context.companyFeatures || [],
         companyContactEmail: context.companyContactEmail || "",
         companyContactPhone: context.companyContactPhone || "",
         companyContactWebsite: context.companyContactWebsite || "",
@@ -120,9 +191,42 @@ const AdminPanel: React.FC<AdminPanelProps> = ({
       );
       await context.updateContent("companyLink", formData.companyLink);
       await context.updateContent("headerTitle", formData.headerTitle);
+      await context.updateContent("heroSubtitle", formData.heroSubtitle);
       await context.updateContent("footerLocation", formData.footerLocation);
       await context.updateContent("footerSeason", formData.footerSeason);
       await context.updateContent("footerCopyright", formData.footerCopyright);
+
+      // Save robot design section
+      await context.updateContent(
+        "robotDesignTitle",
+        formData.robotDesignTitle,
+      );
+      await context.updateContent(
+        "robotDesignSubtitle",
+        formData.robotDesignSubtitle,
+      );
+      await context.updateContent(
+        "robotDesignCards",
+        formData.robotDesignCards,
+      );
+
+      // Save game strategy section
+      await context.updateContent(
+        "gameStrategyTitle",
+        formData.gameStrategyTitle,
+      );
+      await context.updateContent(
+        "gameStrategySubtitle",
+        formData.gameStrategySubtitle,
+      );
+      await context.updateContent(
+        "gameStrategyCards",
+        formData.gameStrategyCards,
+      );
+
+      // Save core values section
+      await context.updateContent("coreValuesTitle", formData.coreValuesTitle);
+      await context.updateContent("coreValues", formData.coreValues);
 
       // Save all company page content
       await context.updateContent(
@@ -212,6 +316,17 @@ const AdminPanel: React.FC<AdminPanelProps> = ({
     setFormData({ ...formData, companyFeatures: newFeatures });
   };
 
+  const handleCardChange = (
+    cardArray: CardItem[],
+    index: number,
+    field: "icon" | "title" | "description",
+    value: string,
+  ) => {
+    const newCards = [...cardArray];
+    newCards[index] = { ...newCards[index], [field]: value };
+    return newCards;
+  };
+
   const addFeature = () => {
     const newFeatures = [
       ...formData.companyFeatures,
@@ -227,6 +342,39 @@ const AdminPanel: React.FC<AdminPanelProps> = ({
     }
     const newFeatures = formData.companyFeatures.filter((_, i) => i !== index);
     setFormData({ ...formData, companyFeatures: newFeatures });
+  };
+
+  const addCard = (
+    cardArray: any[],
+    setterKey:
+      | "robotDesignCards"
+      | "gameStrategyCards"
+      | "coreValues"
+      | "companyFeatures",
+  ) => {
+    const newCards = [...cardArray, { icon: "", title: "", description: "" }];
+    setFormData({ ...formData, [setterKey]: newCards });
+    // Auto-save when adding a card
+    context.updateContent(setterKey, newCards);
+  };
+
+  const deleteCard = (
+    cardArray: any[],
+    setterKey:
+      | "robotDesignCards"
+      | "gameStrategyCards"
+      | "coreValues"
+      | "companyFeatures",
+    index: number,
+  ) => {
+    if (cardArray.length <= 1) {
+      alert("חייב להישאר לפחות כרטיסייה אחת!");
+      return;
+    }
+    const newCards = cardArray.filter((_, i) => i !== index);
+    setFormData({ ...formData, [setterKey]: newCards });
+    // Auto-save when deleting a card
+    context.updateContent(setterKey, newCards);
   };
 
   const addBulletPoint = (fieldName: keyof typeof formData) => {
@@ -332,6 +480,19 @@ const AdminPanel: React.FC<AdminPanelProps> = ({
                 />
               </div>
 
+              {/* Hero Subtitle */}
+              <div className={styles.section}>
+                <h3>✨ תיאור בעמוד הבית (Hero Subtitle)</h3>
+                <textarea
+                  value={formData.heroSubtitle}
+                  onChange={(e) =>
+                    setFormData({ ...formData, heroSubtitle: e.target.value })
+                  }
+                  placeholder="חושפים את העבר, בונים את העתיד - ארכיאולוגיה בעידן הדיגיטלי"
+                  rows={2}
+                />
+              </div>
+
               {/* About Section */}
               <div className={styles.section}>
                 <h3>📝 אודות הקבוצה</h3>
@@ -352,6 +513,134 @@ const AdminPanel: React.FC<AdminPanelProps> = ({
                   placeholder="הכנס תיאור של הקבוצה..."
                   rows={5}
                 />
+              </div>
+
+              {/* Core Values Section */}
+              <div className={styles.section}>
+                <h3>💎 ערכי הליבה</h3>
+                <div className={styles.inputGroup}>
+                  <label>כותרת:</label>
+                  <input
+                    type="text"
+                    value={formData.coreValuesTitle}
+                    onChange={(e) =>
+                      setFormData({
+                        ...formData,
+                        coreValuesTitle: e.target.value,
+                      })
+                    }
+                    placeholder="ערכי הליבה שלנו"
+                  />
+                </div>
+                <div className={styles.sectionHeader}>
+                  <h4>🎴 ערכים ({formData.coreValues.length})</h4>
+                  <button
+                    className={styles.addButton}
+                    onClick={() => addCard(formData.coreValues, "coreValues")}
+                    type="button"
+                  >
+                    ➕ הוסף ערך
+                  </button>
+                </div>
+                {formData.coreValues.map((value, index) => (
+                  <div key={index} className={styles.featureItem}>
+                    <div className={styles.featureHeader}>
+                      <h4>ערך {index + 1}</h4>
+                      <button
+                        className={styles.deleteButton}
+                        onClick={() =>
+                          deleteCard(formData.coreValues, "coreValues", index)
+                        }
+                        type="button"
+                        title="מחק ערך"
+                      >
+                        🗑️ מחק
+                      </button>
+                    </div>
+                    <div className={styles.inputGroup}>
+                      <label>אימוג'י:</label>
+                      <input
+                        type="text"
+                        value={value.icon}
+                        onChange={(e) => {
+                          const newValues = handleCardChange(
+                            formData.coreValues,
+                            index,
+                            "icon",
+                            e.target.value,
+                          );
+                          setFormData({
+                            ...formData,
+                            coreValues: newValues,
+                          });
+                        }}
+                        placeholder="🤝"
+                        maxLength={2}
+                      />
+                    </div>
+                    <div className={styles.inputGroup}>
+                      <label>כותרת:</label>
+                      <input
+                        type="text"
+                        value={value.title}
+                        onChange={(e) => {
+                          const newValues = handleCardChange(
+                            formData.coreValues,
+                            index,
+                            "title",
+                            e.target.value,
+                          );
+                          setFormData({
+                            ...formData,
+                            coreValues: newValues,
+                          });
+                        }}
+                        placeholder="כבוד הדדי"
+                      />
+                    </div>
+                    <div className={styles.inputGroup}>
+                      <div className={styles.textareaHeader}>
+                        <label>תיאור:</label>
+                        <button
+                          className={styles.bulletButton}
+                          onClick={() => {
+                            const newValues = handleCardChange(
+                              formData.coreValues,
+                              index,
+                              "description",
+                              value.description +
+                                (value.description ? "\n• " : "• "),
+                            );
+                            setFormData({
+                              ...formData,
+                              coreValues: newValues,
+                            });
+                          }}
+                          title="הוסף נקודה"
+                        >
+                          • הוסף נקודה
+                        </button>
+                      </div>
+                      <textarea
+                        value={value.description}
+                        onChange={(e) => {
+                          const newValues = handleCardChange(
+                            formData.coreValues,
+                            index,
+                            "description",
+                            e.target.value,
+                          );
+                          setFormData({
+                            ...formData,
+                            coreValues: newValues,
+                          });
+                        }}
+                        placeholder="אנחנו מכבדים את כל חברי הצוות..."
+                        rows={3}
+                      />
+                    </div>
+                  </div>
+                ))}
               </div>
 
               {/* Problem Section */}
@@ -421,6 +710,306 @@ const AdminPanel: React.FC<AdminPanelProps> = ({
                   placeholder="תאר כיצד הפתרון ייושם..."
                   rows={5}
                 />
+              </div>
+
+              {/* Robot Design Section */}
+              <div className={styles.section}>
+                <h3>🦾 תכנון הרובוט</h3>
+                <div className={styles.inputGroup}>
+                  <label>כותרת:</label>
+                  <input
+                    type="text"
+                    value={formData.robotDesignTitle}
+                    onChange={(e) =>
+                      setFormData({
+                        ...formData,
+                        robotDesignTitle: e.target.value,
+                      })
+                    }
+                    placeholder="תכנון הרובוט שלנו"
+                  />
+                </div>
+                <div className={styles.inputGroup}>
+                  <label>תיאור או סברה:</label>
+                  <textarea
+                    value={formData.robotDesignSubtitle}
+                    onChange={(e) =>
+                      setFormData({
+                        ...formData,
+                        robotDesignSubtitle: e.target.value,
+                      })
+                    }
+                    placeholder="פיתחנו רובוט מודולרי עם זרועות מתחלפות..."
+                    rows={2}
+                  />
+                </div>
+                <div className={styles.sectionHeader}>
+                  <h4>
+                    🎴 כרטיסיות תכנון רובוט ({formData.robotDesignCards.length})
+                  </h4>
+                  <button
+                    className={styles.addButton}
+                    onClick={() =>
+                      addCard(formData.robotDesignCards, "robotDesignCards")
+                    }
+                    type="button"
+                  >
+                    ➕ הוסף כרטיסייה
+                  </button>
+                </div>
+                {formData.robotDesignCards.map((card, index) => (
+                  <div key={index} className={styles.featureItem}>
+                    <div className={styles.featureHeader}>
+                      <h4>כרטיסייה {index + 1}</h4>
+                      <button
+                        className={styles.deleteButton}
+                        onClick={() =>
+                          deleteCard(
+                            formData.robotDesignCards,
+                            "robotDesignCards",
+                            index,
+                          )
+                        }
+                        type="button"
+                        title="מחק כרטיסייה"
+                      >
+                        🗑️ מחק
+                      </button>
+                    </div>
+                    <div className={styles.inputGroup}>
+                      <label>אימוג'י:</label>
+                      <input
+                        type="text"
+                        value={card.icon}
+                        onChange={(e) => {
+                          const newCards = handleCardChange(
+                            formData.robotDesignCards,
+                            index,
+                            "icon",
+                            e.target.value,
+                          );
+                          setFormData({
+                            ...formData,
+                            robotDesignCards: newCards,
+                          });
+                        }}
+                        placeholder="🏗️"
+                        maxLength={2}
+                      />
+                    </div>
+                    <div className={styles.inputGroup}>
+                      <label>כותרת:</label>
+                      <input
+                        type="text"
+                        value={card.title}
+                        onChange={(e) => {
+                          const newCards = handleCardChange(
+                            formData.robotDesignCards,
+                            index,
+                            "title",
+                            e.target.value,
+                          );
+                          setFormData({
+                            ...formData,
+                            robotDesignCards: newCards,
+                          });
+                        }}
+                        placeholder="מבנה בסיס חזק"
+                      />
+                    </div>
+                    <div className={styles.inputGroup}>
+                      <div className={styles.textareaHeader}>
+                        <label>תיאור:</label>
+                        <button
+                          className={styles.bulletButton}
+                          onClick={() => {
+                            const newCards = handleCardChange(
+                              formData.robotDesignCards,
+                              index,
+                              "description",
+                              card.description +
+                                (card.description ? "\n• " : "• "),
+                            );
+                            setFormData({
+                              ...formData,
+                              robotDesignCards: newCards,
+                            });
+                          }}
+                          title="הוסף נקודה"
+                        >
+                          • הוסף נקודה
+                        </button>
+                      </div>
+                      <textarea
+                        value={card.description}
+                        onChange={(e) => {
+                          const newCards = handleCardChange(
+                            formData.robotDesignCards,
+                            index,
+                            "description",
+                            e.target.value,
+                          );
+                          setFormData({
+                            ...formData,
+                            robotDesignCards: newCards,
+                          });
+                        }}
+                        placeholder="בסיס יציב וחזק..."
+                        rows={3}
+                      />
+                    </div>
+                  </div>
+                ))}
+              </div>
+
+              {/* Game Strategy Section */}
+              <div className={styles.section}>
+                <h3>🎯 אסטרטגיית המשחק</h3>
+                <div className={styles.inputGroup}>
+                  <label>כותרת:</label>
+                  <input
+                    type="text"
+                    value={formData.gameStrategyTitle}
+                    onChange={(e) =>
+                      setFormData({
+                        ...formData,
+                        gameStrategyTitle: e.target.value,
+                      })
+                    }
+                    placeholder="אסטרטגיית המשחק שלנו"
+                  />
+                </div>
+                <div className={styles.inputGroup}>
+                  <label>תיאור או סברה:</label>
+                  <textarea
+                    value={formData.gameStrategySubtitle}
+                    onChange={(e) =>
+                      setFormData({
+                        ...formData,
+                        gameStrategySubtitle: e.target.value,
+                      })
+                    }
+                    placeholder="בחרנו להתמקד במשימות עם ניקוד גבוה..."
+                    rows={2}
+                  />
+                </div>
+                <div className={styles.sectionHeader}>
+                  <h4>
+                    🎴 כרטיסיות אסטרטגיה ({formData.gameStrategyCards.length})
+                  </h4>
+                  <button
+                    className={styles.addButton}
+                    onClick={() =>
+                      addCard(formData.gameStrategyCards, "gameStrategyCards")
+                    }
+                    type="button"
+                  >
+                    ➕ הוסף כרטיסייה
+                  </button>
+                </div>
+                {formData.gameStrategyCards.map((card, index) => (
+                  <div key={index} className={styles.featureItem}>
+                    <div className={styles.featureHeader}>
+                      <h4>כרטיסייה {index + 1}</h4>
+                      <button
+                        className={styles.deleteButton}
+                        onClick={() =>
+                          deleteCard(
+                            formData.gameStrategyCards,
+                            "gameStrategyCards",
+                            index,
+                          )
+                        }
+                        type="button"
+                        title="מחק כרטיסייה"
+                      >
+                        🗑️ מחק
+                      </button>
+                    </div>
+                    <div className={styles.inputGroup}>
+                      <label>אימוג'י:</label>
+                      <input
+                        type="text"
+                        value={card.icon}
+                        onChange={(e) => {
+                          const newCards = handleCardChange(
+                            formData.gameStrategyCards,
+                            index,
+                            "icon",
+                            e.target.value,
+                          );
+                          setFormData({
+                            ...formData,
+                            gameStrategyCards: newCards,
+                          });
+                        }}
+                        placeholder="🎯"
+                        maxLength={2}
+                      />
+                    </div>
+                    <div className={styles.inputGroup}>
+                      <label>כותרת:</label>
+                      <input
+                        type="text"
+                        value={card.title}
+                        onChange={(e) => {
+                          const newCards = handleCardChange(
+                            formData.gameStrategyCards,
+                            index,
+                            "title",
+                            e.target.value,
+                          );
+                          setFormData({
+                            ...formData,
+                            gameStrategyCards: newCards,
+                          });
+                        }}
+                        placeholder="משימות עדיפות ראשונה"
+                      />
+                    </div>
+                    <div className={styles.inputGroup}>
+                      <div className={styles.textareaHeader}>
+                        <label>תיאור:</label>
+                        <button
+                          className={styles.bulletButton}
+                          onClick={() => {
+                            const newCards = handleCardChange(
+                              formData.gameStrategyCards,
+                              index,
+                              "description",
+                              card.description +
+                                (card.description ? "\n• " : "• "),
+                            );
+                            setFormData({
+                              ...formData,
+                              gameStrategyCards: newCards,
+                            });
+                          }}
+                          title="הוסף נקודה"
+                        >
+                          • הוסף נקודה
+                        </button>
+                      </div>
+                      <textarea
+                        value={card.description}
+                        onChange={(e) => {
+                          const newCards = handleCardChange(
+                            formData.gameStrategyCards,
+                            index,
+                            "description",
+                            e.target.value,
+                          );
+                          setFormData({
+                            ...formData,
+                            gameStrategyCards: newCards,
+                          });
+                        }}
+                        placeholder="התמקדות בנקודות גבוהות..."
+                        rows={3}
+                      />
+                    </div>
+                  </div>
+                ))}
               </div>
 
               {/* Company Link */}
