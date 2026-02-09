@@ -1,4 +1,3 @@
-// Removed unused React import
 import { useContent } from "@/context/ContentContext";
 import styles from "./Team.module.css";
 
