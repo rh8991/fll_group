@@ -25,6 +25,7 @@ const SmartArchaeologyPage: React.FC = () => {
   const [demoMode, setDemoMode] = useState(false);
   const [cameraActive, setCameraActive] = useState(false);
   const [stream, setStream] = useState<MediaStream | null>(null);
+  const [classNames, setClassNames] = useState<string[]>([]);
 
   // Initialize and load the Teachable Machine model from code snippet
   useEffect(() => {
@@ -119,8 +120,17 @@ const SmartArchaeologyPage: React.FC = () => {
         (window as any).tmModel = model;
         (window as any).tmImage = tmImage;
 
+        // Extract class names from the model
+        const totalClasses = model.getTotalClasses();
+        const extractedClassNames: string[] = [];
+        for (let i = 0; i < totalClasses; i++) {
+          extractedClassNames.push(model.getClassLabels()[i] || `Class ${i}`);
+        }
+        setClassNames(extractedClassNames);
+
         console.log("✅ Model loaded successfully!");
-        console.log("📊 Total classes:", model.getTotalClasses());
+        console.log("📊 Total classes:", totalClasses);
+        console.log("📝 Class names:", extractedClassNames);
 
         setModelLoaded(true);
         setError("");
@@ -279,16 +289,43 @@ const SmartArchaeologyPage: React.FC = () => {
       setLoading(true);
       setError("");
 
-      // Demo mode - show sample results
+      // Demo mode - show sample results with actual class names
       if (demoMode) {
         // Simulate analysis delay
         await new Promise((resolve) => setTimeout(resolve, 1500));
 
-        const samplePredictions: Prediction[] = [
-          { className: "תקופה ברונזית", probability: 85.42 },
-          { className: "תקופה רומית", probability: 12.38 },
-          { className: "תקופה מוסלמית מוקדמת", probability: 2.2 },
-        ];
+        // Generate demo predictions using actual class names
+        let samplePredictions: Prediction[] = [];
+
+        if (classNames.length > 0) {
+          // Create demo predictions with real class names
+          const probabilities = classNames.map((_, index) => {
+            // First class gets highest probability, others get decreasing probabilities
+            return Math.max(
+              10,
+              Math.round((100 / classNames.length) * (1 - index * 0.3)),
+            );
+          });
+
+          // Adjust to sum to 100
+          const total = probabilities.reduce((a, b) => a + b, 0);
+          const normalized = probabilities.map((p) => (p / total) * 100);
+
+          samplePredictions = classNames.map((name, index) => ({
+            className: name,
+            probability: normalized[index],
+          }));
+
+          // Sort by probability descending
+          samplePredictions.sort((a, b) => b.probability - a.probability);
+        } else {
+          // Fallback if no class names extracted
+          samplePredictions = [
+            { className: "Class 1", probability: 85.42 },
+            { className: "Class 2", probability: 12.38 },
+            { className: "Class 3", probability: 2.2 },
+          ];
+        }
 
         setPredictions(samplePredictions);
         setLoading(false);
